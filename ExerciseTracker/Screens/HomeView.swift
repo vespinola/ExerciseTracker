@@ -14,6 +14,7 @@ struct HomeView: View {
         .fill(Color.gray.opacity(0.1))
       VStack {
         HeaderView(model: .init(title: "Summary", image: "person.crop.circle"))
+          .padding(.vertical)
         HStack(spacing: 16) {
           ChartCardView(model: .init(
             title: "Step Count",
@@ -24,14 +25,22 @@ struct HomeView: View {
           ChartCardView(model: .init(
             title: "Step Distance",
             date: "Today",
-            steps: "5,500",
+            steps: "1.04KM",
             foregroundColor: Color.red,
             data: HourlySteps.mock
           ))
         }
-        .padding(.horizontal)
+        PieChartCardView(
+          model: .init(
+              title: "Move",
+              subtitle: "51/300KCAL",
+              description: "Activity Ring",
+              progress: 34
+            )
+        )
         Spacer()
       }
+      .padding(.horizontal)
     }
   }
 }

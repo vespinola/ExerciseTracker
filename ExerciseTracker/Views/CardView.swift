@@ -19,7 +19,7 @@ struct Action {
   var deeplink: String
 }
 
-struct CardView: View {
+struct InfoCardView: View {
   var body: some View {
 
     VStack {
@@ -75,6 +75,6 @@ private struct CloseButton: View {
 }
 
 #Preview {
-  CardView()
+  InfoCardView()
 }
 

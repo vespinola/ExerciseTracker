@@ -6,8 +6,13 @@
 //
 
 import SwiftUI
+import HealthKitUI
 
 struct HomeView: View {
+  @State var trigger = false
+  @ObservedObject var viewModel: HomeViewModel = .init()
+  @Environment(\.scenePhase) var scenePhase
+
   var body: some View {
     ZStack {
       Rectangle()
@@ -19,7 +24,7 @@ struct HomeView: View {
           ChartCardView(model: .init(
             title: "Step Count",
             date: "Today",
-            steps: "5,000",
+            steps: viewModel.todayStepsCount,
             data: HourlySteps.mock
           ))
           ChartCardView(model: .init(
@@ -41,6 +46,33 @@ struct HomeView: View {
         Spacer()
       }
       .padding(.horizontal)
+    }
+    .onAppear {
+      print("homeview appeared")
+      if HKHealthStore.isHealthDataAvailable() {
+        trigger.toggle()
+      }
+    }
+    .onChange(of: scenePhase) {
+      guard scenePhase == .active else { return }
+      Task {
+        try? await viewModel.fetchStepsCount()
+      }
+    }
+    .healthDataAccessRequest(
+      store: viewModel.healthStore,
+      readTypes: viewModel.dataType,
+      trigger: trigger
+    ) { result in
+      switch result {
+        case .success(_):
+          Task {
+            try? await viewModel.fetchStepsCount()
+          }
+        case .failure(let error):
+          // do something
+          print(error.localizedDescription)
+      }
     }
   }
 }

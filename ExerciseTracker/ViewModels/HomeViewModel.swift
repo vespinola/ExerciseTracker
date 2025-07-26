@@ -37,8 +37,8 @@ class HomeViewModel: ObservableObject {
     }
 
     private func fetchStepsPerHour() async throws {
-        let startDate = calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: now))!
-        // let startDate = calendar.startOfDay(for: now)
+//        let startDate = calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: now))!
+         let startDate = calendar.startOfDay(for: now)
         let (total, hourly) = try await fetchHourlyCumulativeSum(
             for: HKQuantityType(.stepCount),
             unit: .count(),
@@ -52,8 +52,8 @@ class HomeViewModel: ObservableObject {
     }
 
     private func fetchDistancePerHour() async throws {
-        let startDate = calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: now))!
-        // let startDate = calendar.startOfDay(for: now)
+//        let startDate = calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: now))!
+         let startDate = calendar.startOfDay(for: now)
         let (total, hourly) = try await fetchHourlyCumulativeSum(
             for: HKQuantityType(.distanceWalkingRunning),
             unit: .meter(),
@@ -67,8 +67,8 @@ class HomeViewModel: ObservableObject {
     }
 
     private func fetchMoveSummary() async throws {
-        var components = calendar.dateComponents([.year, .month, .day], from: calendar.date(byAdding: .day, value: -1, to: now)!)
-        // var components = calendar.dateComponents([.year, .month, .day], from: now)
+//        var components = calendar.dateComponents([.year, .month, .day], from: calendar.date(byAdding: .day, value: -1, to: now)!)
+         var components = calendar.dateComponents([.year, .month, .day], from: now)
         components.calendar = calendar
         let predicate = HKQuery.predicate(forActivitySummariesBetweenStart: components, end: components)
         let descriptor = HKActivitySummaryQueryDescriptor(predicate: predicate)

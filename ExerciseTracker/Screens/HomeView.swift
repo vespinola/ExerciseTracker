@@ -32,6 +32,7 @@ struct HomeView: View {
         ZStack {
             Rectangle()
                 .fill(Color.gray.opacity(0.1))
+                .edgesIgnoringSafeArea(.all)
             VStack(spacing: 16) {
                 HeaderView(model: .init(title: "Summary", image: "person.crop.circle"))
                     .padding(.top)

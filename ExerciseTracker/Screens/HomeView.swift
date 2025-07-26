@@ -9,74 +9,89 @@ import SwiftUI
 import HealthKitUI
 
 struct HomeView: View {
-  @State var trigger = false
-  @ObservedObject var viewModel: HomeViewModel = .init()
-  @Environment(\.scenePhase) var scenePhase
+    @State var trigger = false
+    @State private var timer = Timer
+        .publish(every: 30, on: .main, in: .common)
+        .autoconnect()
+    @ObservedObject var viewModel: HomeViewModel = .init()
+    @Environment(\.scenePhase) var scenePhase
 
-  var body: some View {
-    ZStack {
-      Rectangle()
-        .fill(Color.gray.opacity(0.1))
-      VStack {
-        HeaderView(model: .init(title: "Summary", image: "person.crop.circle"))
-          .padding(.vertical)
-        HStack(spacing: 16) {
-          ChartCardView(model: .init(
-            title: "Step Count",
-            date: "Today",
-            steps: viewModel.todayStepsCount,
-            data: HourlySteps.mock
-          ))
-          ChartCardView(model: .init(
-            title: "Step Distance",
-            date: "Today",
-            steps: "1.04KM",
-            foregroundColor: Color.red,
-            data: HourlySteps.mock
-          ))
+    private var stepsPerHour: [HourlySteps] {
+        viewModel.hourlyStepCounts.map {
+            .init(hour: $0.0, count: $0.1)
         }
-        PieChartCardView(
-          model: .init(
-              title: "Move",
-              subtitle: "51/300KCAL",
-              description: "Activity Ring",
-              progress: 34
-            )
-        )
-        Spacer()
-      }
-      .padding(.horizontal)
     }
-    .onAppear {
-      print("homeview appeared")
-      if HKHealthStore.isHealthDataAvailable() {
-        trigger.toggle()
-      }
+
+    private var distancePerHour: [HourlySteps] {
+        viewModel.hourlyDistance.map {
+            .init(hour: $0.0, count: $0.1)
+        }
     }
-    .onChange(of: scenePhase) {
-      guard scenePhase == .active else { return }
-      Task {
-        try? await viewModel.fetchStepsCount()
-      }
+
+    var body: some View {
+        ZStack {
+            Rectangle()
+                .fill(Color.gray.opacity(0.1))
+            VStack(spacing: 16) {
+                HeaderView(model: .init(title: "Summary", image: "person.crop.circle"))
+                    .padding(.top)
+                HStack(spacing: 16) {
+                    ChartCardView(model: .init(
+                        title: "Step Count",
+                        date: "Today",
+                        steps: viewModel.todayStepsCount,
+                        data: stepsPerHour
+                    ))
+                    ChartCardView(model: .init(
+                        title: "Step Distance",
+                        date: "Today",
+                        steps: viewModel.todayDistance,
+                        foregroundColor: Color.red,
+                        data: distancePerHour
+                    ))
+                }
+                PieChartCardView(
+                    model: .init(
+                        title: "Move",
+                        subtitle: viewModel.todayBurnedCalories,
+                        description: "Activity Ring",
+                        progress: viewModel.todayBurnedCaloriesPercentage
+                    )
+                )
+                Spacer()
+            }
+            .padding(.horizontal)
+        }
+        .onAppear {
+            if HKHealthStore.isHealthDataAvailable() {
+                trigger.toggle()
+            }
+        }
+        .onReceive(timer) { _ in
+            guard scenePhase == .active else { return }
+            Task {
+                try? await viewModel.fetchHealthData()
+            }
+        }
+        .healthDataAccessRequest(
+            store: viewModel.healthStore,
+            readTypes: viewModel.dataType,
+            trigger: trigger
+        ) { result in
+            switch result {
+                case .success(_):
+                    Task {
+                        try? await viewModel.fetchHealthData()
+                    }
+                case .failure(let error):
+                    // do something
+                    print(error.localizedDescription)
+            }
+        }
     }
-    .healthDataAccessRequest(
-      store: viewModel.healthStore,
-      readTypes: viewModel.dataType,
-      trigger: trigger
-    ) { result in
-      switch result {
-        case .success(_):
-          Task {
-            try? await viewModel.fetchStepsCount()
-          }
-        case .failure(let error):
-          // do something
-          print(error.localizedDescription)
-      }
-    }
-  }
 }
 
 #Preview {
-  HomeView()
+    HomeView()
 }
+

@@ -11,7 +11,7 @@ import HealthKitUI
 struct HomeView: View {
     @State var trigger = false
     @State private var timer = Timer
-        .publish(every: 30, on: .main, in: .common)
+        .publish(every: 60, on: .main, in: .common)
         .autoconnect()
     @ObservedObject var viewModel: HomeViewModel = .init()
     @Environment(\.scenePhase) var scenePhase
@@ -59,6 +59,7 @@ struct HomeView: View {
                         progress: viewModel.todayBurnedCaloriesPercentage
                     )
                 )
+                Text("Current body mass: \(viewModel.currentBodyMass)")
                 Spacer()
             }
             .padding(.horizontal)
@@ -69,10 +70,10 @@ struct HomeView: View {
             }
         }
         .onReceive(timer) { _ in
-            guard scenePhase == .active else { return }
-            Task {
-                try? await viewModel.fetchHealthData()
-            }
+            getHealthData()
+        }
+        .onChange(of: scenePhase) {
+            getHealthData()
         }
         .healthDataAccessRequest(
             store: viewModel.healthStore,
@@ -88,6 +89,13 @@ struct HomeView: View {
                     // do something
                     print(error.localizedDescription)
             }
+        }
+    }
+
+    private func getHealthData() {
+        guard scenePhase == .active else { return }
+        Task {
+            try? await viewModel.fetchHealthData()
         }
     }
 }

@@ -18,7 +18,8 @@ class HomeViewModel: ObservableObject {
     let dataType: Set<HKObjectType> = [
         HKQuantityType(.stepCount),
         HKQuantityType(.distanceWalkingRunning),
-        HKObjectType.activitySummaryType()
+        HKObjectType.activitySummaryType(),
+        HKQuantityType(.bodyMass)
     ]
 
     @Published var todayStepsCount: String = "No Data"
@@ -27,6 +28,8 @@ class HomeViewModel: ObservableObject {
     @Published var hourlyDistance: [(Date, Int)] = []
     @Published var todayBurnedCalories: String = "No Data"
     @Published var todayBurnedCaloriesPercentage: Double = 0
+    @Published var currentBodyMass: String = "No Data"
+    @Published var yearlyBodyMassList: [(Date, Double)] = []
 
     init() {}
 
@@ -34,11 +37,15 @@ class HomeViewModel: ObservableObject {
         try await fetchStepsPerHour()
         try await fetchDistancePerHour()
         try await fetchMoveSummary()
+        try await fetchBodyMassData(
+            startDate: calendar.date(byAdding: .month, value: -1, to: now) ?? now,
+            endDate: now
+        )
     }
 
     private func fetchStepsPerHour() async throws {
-//        let startDate = calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: now))!
-         let startDate = calendar.startOfDay(for: now)
+        //        let startDate = calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: now))!
+        let startDate = calendar.startOfDay(for: now)
         let (total, hourly) = try await fetchHourlyCumulativeSum(
             for: HKQuantityType(.stepCount),
             unit: .count(),
@@ -52,8 +59,8 @@ class HomeViewModel: ObservableObject {
     }
 
     private func fetchDistancePerHour() async throws {
-//        let startDate = calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: now))!
-         let startDate = calendar.startOfDay(for: now)
+        //        let startDate = calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: now))!
+        let startDate = calendar.startOfDay(for: now)
         let (total, hourly) = try await fetchHourlyCumulativeSum(
             for: HKQuantityType(.distanceWalkingRunning),
             unit: .meter(),
@@ -67,8 +74,8 @@ class HomeViewModel: ObservableObject {
     }
 
     private func fetchMoveSummary() async throws {
-//        var components = calendar.dateComponents([.year, .month, .day], from: calendar.date(byAdding: .day, value: -1, to: now)!)
-         var components = calendar.dateComponents([.year, .month, .day], from: now)
+        //        var components = calendar.dateComponents([.year, .month, .day], from: calendar.date(byAdding: .day, value: -1, to: now)!)
+        var components = calendar.dateComponents([.year, .month, .day], from: now)
         components.calendar = calendar
         let predicate = HKQuery.predicate(forActivitySummariesBetweenStart: components, end: components)
         let descriptor = HKActivitySummaryQueryDescriptor(predicate: predicate)
@@ -106,5 +113,19 @@ class HomeViewModel: ObservableObject {
         }
         let total = hourlyValues.map(\.1).reduce(0, +)
         return (formatter(Double(total)), hourlyValues)
+    }
+
+    private func fetchBodyMassData(startDate: Date, endDate: Date) async throws {
+        guard let weightType = HKQuantityType.quantityType(forIdentifier: .bodyMass) else { return }
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate)
+        let samplePredicate = HKSamplePredicate.quantitySample(type: weightType, predicate: predicate)
+        let sortDescriptor = SortDescriptor(\HKQuantitySample.startDate, order: .reverse)
+        let descriptor = HKSampleQueryDescriptor(predicates: [samplePredicate], sortDescriptors: [sortDescriptor])
+        let results = try await descriptor.result(for: healthStore)
+        let mostRecents = results.map {
+            ($0.startDate, $0.quantity.doubleValue(for: .gramUnit(with: .kilo)))
+        }
+        self.currentBodyMass = String(format: "%.1f Kg", mostRecents.first?.1 ?? .zero)
+        self.yearlyBodyMassList = mostRecents
     }
 }

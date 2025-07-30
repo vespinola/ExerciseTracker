@@ -1,5 +1,5 @@
 //
-//  ChartCardView.swift
+//  BarChartCardView.swift
 //  ExerciseTracker
 //
 //  Created by Vladimir Espinola Lezcano on 2025-07-20.
@@ -8,22 +8,8 @@
 import SwiftUI
 import Charts
 
-struct ChartCardModel {
-    let title: String
-    let date: String
-    let steps: String
-    var foregroundColor: Color = .blue
-    var data: [HourlySteps] = []
-}
-
-struct HourlySteps: Identifiable {
-    let id = UUID()
-    let hour: Date
-    let count: Int
-}
-
-struct ChartCardView: View {
-    let model: ChartCardModel
+struct BarChartCardView: View {
+    let model: ChartModel
 
     let baseDate = Calendar.current.startOfDay(for: Date())
     let tickHours = [0, 6, 12, 18, 24]
@@ -50,13 +36,13 @@ struct ChartCardView: View {
                     .font(.caption)
                     .bold()
                     .padding(.top, 4)
-                Text(model.steps)
+                Text(model.primaryData)
                     .font(.largeTitle)
-                    .foregroundStyle(model.foregroundColor)
+                    .foregroundStyle(.blue)
                 Chart(model.data) {
                     BarMark(
-                        x: .value("Time", $0.hour),
-                        y: .value("Steps", $0.count),
+                        x: .value("Time", $0.date),
+                        y: .value("Steps", $0.value),
                         width: 3.0
                     )
                 }
@@ -70,7 +56,7 @@ struct ChartCardView: View {
                     }
                 }
                 .frame(maxWidth: .infinity)
-                .foregroundStyle(model.foregroundColor)
+                .foregroundStyle(.blue)
                 .clipped()
             }
             .padding()
@@ -81,21 +67,21 @@ struct ChartCardView: View {
 }
 
 #Preview {
-  ChartCardView(model: .init(
+  BarChartCardView(model: .init(
     title: "Steps count",
     date: "Today",
-    steps: "7,334",
-    data: HourlySteps.mock
+    primaryData: "7,334",
+    data: MetricDetailModel.mock
   ))
 }
 
-extension HourlySteps {
-    static var mock: [HourlySteps] {
+extension MetricDetailModel {
+    static var mock: [MetricDetailModel] {
         let calendar = Calendar.current
         let baseDate = calendar.startOfDay(for: Date())
         return (0..<24).compactMap { hour in
             guard let date = calendar.date(byAdding: .hour, value: hour, to: baseDate) else { return nil }
-            return HourlySteps(hour: date, count: Int.random(in: 0..<1000))
+            return MetricDetailModel(date: date, value: Double.random(in: 0..<1000))
         }
     }
 }

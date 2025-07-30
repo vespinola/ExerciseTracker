@@ -10,6 +10,9 @@ import HealthKit
 
 @MainActor
 class HomeViewModel: ObservableObject {
+    private enum Constants {
+        static let noData = "No Data"
+    }
     private let calendar = Calendar.current
     private var now: Date { .now }
     private let hourlyIntervalComponents = DateComponents(hour: 1)
@@ -22,25 +25,26 @@ class HomeViewModel: ObservableObject {
         HKQuantityType(.bodyMass)
     ]
 
-    @Published var todayStepsCount: String = "No Data"
-    @Published var hourlyStepCounts: [(Date, Int)] = []
-    @Published var todayDistance: String = "No Data"
-    @Published var hourlyDistance: [(Date, Int)] = []
-    @Published var todayBurnedCalories: String = "No Data"
+    @Published var todayStepsCount: String = Constants.noData
+    @Published var hourlyStepCounts: [(Date, Double)] = []
+    @Published var todayDistance: String = Constants.noData
+    @Published var hourlyDistance: [(Date, Double)] = []
+    @Published var todayBurnedCalories: String = Constants.noData
     @Published var todayBurnedCaloriesPercentage: Double = 0
-    @Published var currentBodyMass: String = "No Data"
+    @Published var currentBodyMass: String = Constants.noData
     @Published var yearlyBodyMassList: [(Date, Double)] = []
 
     init() {}
 
-    func fetchHealthData() async throws {
-        try await fetchStepsPerHour()
-        try await fetchDistancePerHour()
-        try await fetchMoveSummary()
-        try await fetchBodyMassData(
-            startDate: calendar.date(byAdding: .month, value: -1, to: now) ?? now,
+    func fetchHealthData() async {
+        async let steps: Void = fetchStepsPerHour()
+        async let distance: Void = fetchDistancePerHour()
+        async let move: Void = fetchMoveSummary()
+        async let bodyMass: Void = fetchBodyMassData(
+            startDate: calendar.date(byAdding: .month, value: -3, to: .now) ?? .now,
             endDate: now
         )
+        _ = try? await (steps, distance, move, bodyMass)
     }
 
     private func fetchStepsPerHour() async throws {
@@ -94,7 +98,7 @@ class HomeViewModel: ObservableObject {
         startDate: Date,
         endDate: Date,
         intervalComponents: DateComponents
-    ) async throws -> (total: String, hourly: [(Date, Int)]) {
+    ) async throws -> (total: String, hourly: [(Date, Double)]) {
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
         let samplePredicate = HKSamplePredicate.quantitySample(type: quantityType, predicate: predicate)
         // describes what kind of summary data you want from HealthKit.
@@ -105,11 +109,11 @@ class HomeViewModel: ObservableObject {
             intervalComponents: intervalComponents
         )
         let results = try await queryDescriptor.result(for: healthStore)
-        var hourlyValues: [(Date, Int)] = []
+        var hourlyValues: [(Date, Double)] = []
         results.enumerateStatistics(from: startDate, to: endDate) { statistics, _ in
             let hour = statistics.startDate
             let value = statistics.sumQuantity()?.doubleValue(for: unit) ?? 0
-            hourlyValues.append((hour, Int(value)))
+            hourlyValues.append((hour, value))
         }
         let total = hourlyValues.map(\.1).reduce(0, +)
         return (formatter(Double(total)), hourlyValues)
@@ -119,13 +123,13 @@ class HomeViewModel: ObservableObject {
         guard let weightType = HKQuantityType.quantityType(forIdentifier: .bodyMass) else { return }
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate)
         let samplePredicate = HKSamplePredicate.quantitySample(type: weightType, predicate: predicate)
-        let sortDescriptor = SortDescriptor(\HKQuantitySample.startDate, order: .reverse)
+        let sortDescriptor = SortDescriptor(\HKQuantitySample.startDate)
         let descriptor = HKSampleQueryDescriptor(predicates: [samplePredicate], sortDescriptors: [sortDescriptor])
         let results = try await descriptor.result(for: healthStore)
         let mostRecents = results.map {
             ($0.startDate, $0.quantity.doubleValue(for: .gramUnit(with: .kilo)))
         }
-        self.currentBodyMass = String(format: "%.1f Kg", mostRecents.first?.1 ?? .zero)
+        self.currentBodyMass = String(format: "%.1f Kg", mostRecents.last?.1 ?? .zero)
         self.yearlyBodyMassList = mostRecents
     }
 }

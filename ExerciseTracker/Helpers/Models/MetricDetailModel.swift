@@ -23,3 +23,11 @@ extension [MetricDetailModel] {
         .init(date: Calendar.current.date(byAdding: .day, value: -1, to: .now) ?? .now, value: 30)
     ]
 }
+
+extension MetricDetailModel {
+    static func map(values: [(Date, Double)]) -> [MetricDetailModel] {
+        values.map {
+            .init(date: $0.0, value: $0.1)
+        }
+    }
+}

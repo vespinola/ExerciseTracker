@@ -10,9 +10,6 @@ import HealthKit
 
 @MainActor
 class HomeViewModel: ObservableObject {
-    private enum Constants {
-        static let noData = "No Data"
-    }
     private let calendar = Calendar.current
     private var now: Date { .now }
     private let hourlyIntervalComponents = DateComponents(hour: 1)
@@ -29,9 +26,9 @@ class HomeViewModel: ObservableObject {
     @Published var showPermissionAlert = false
 
     private let healthKitManager: HealthKitManaging
-    let onStepsCountTap: () -> Void
+    let onStepsCountTap: (ChartDetailModel) -> Void
 
-    init(healthKitManager: HealthKitManaging, onStepsCountTap: @escaping () -> Void) {
+    init(healthKitManager: HealthKitManaging, onStepsCountTap: @escaping (ChartDetailModel) -> Void) {
         self.healthKitManager = healthKitManager
         self.onStepsCountTap = onStepsCountTap
     }

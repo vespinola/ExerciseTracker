@@ -12,23 +12,11 @@ struct HomeView: View {
     @State private var timer = Timer
         .publish(every: 60, on: .main, in: .common)
         .autoconnect()
-    @StateObject var viewModel: HomeViewModel
+    @StateObject private var viewModel: HomeViewModel
     @Environment(\.scenePhase) var scenePhase
 
     init(viewModel: HomeViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
-    }
-
-    private var stepsPerHour: [MetricDetailModel] {
-        viewModel.hourlyStepCounts.map {
-            .init(date: $0.0, value: $0.1)
-        }
-    }
-
-    private var distancePerHour: [MetricDetailModel] {
-        viewModel.hourlyDistance.map {
-            .init(date: $0.0, value: $0.1)
-        }
     }
     private var bodyMassPerMonth: [MetricDetailModel] {
         viewModel.yearlyBodyMassList.map {
@@ -60,15 +48,19 @@ struct HomeView: View {
                             primaryData: viewModel.todayStepsCount,
                             yAxisLabel: "steps",
                             xAxisStyle: .hour,
-                            data: stepsPerHour
-                        ), onTap: viewModel.onStepsCountTap)
+                            data: MetricDetailModel.map(values: viewModel.hourlyStepCounts)
+                        ), onTap: {
+                            viewModel.onStepsCountTap(
+                                .init(title: "Step Count")
+                            )
+                        })
                         BarChartCardView(model: .init(
                             title: "Step Distance",
                             date: "Today",
                             primaryData: viewModel.todayDistance,
                             yAxisLabel: "distance",
                             xAxisStyle: .hour,
-                            data: distancePerHour
+                            data: MetricDetailModel.map(values: viewModel.hourlyDistance)
                         ), onTap: {
 
                         })
@@ -117,7 +109,10 @@ struct HomeView: View {
 
 #Preview {
     HomeView(
-        viewModel: HomeViewModel(healthKitManager: MockHealthKitManager(), onStepsCountTap: {})
+        viewModel: HomeViewModel(
+            healthKitManager: MockHealthKitManager(),
+            onStepsCountTap: { _ in }
+        )
     )
 }
 

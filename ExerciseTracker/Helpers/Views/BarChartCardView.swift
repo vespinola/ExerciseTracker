@@ -17,7 +17,7 @@ struct BarChartCardView: View {
             cardContent
         })
         .frame(maxWidth: .infinity)
-        .frame(height: 200)
+        .frame(minHeight: 200)
     }
 
     @ViewBuilder

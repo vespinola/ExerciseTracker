@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-enum Page: Identifiable {
+enum Page: Hashable, Identifiable {
     case home
-    case detail
+    case detail(ChartDetailModel)
 
     var id: String {
         switch self {
@@ -48,13 +48,15 @@ final class Coordinator: ObservableObject {
             HomeView(
                 viewModel: .init(
                     healthKitManager: healthKitManager,
-                    onStepsCountTap: { [weak self] in
-                        self?.push(.detail)
+                    onStepsCountTap: { [weak self] model in
+                        self?.push(.detail(model))
                     }
                 )
             )
-        case .detail:
-            BarChartDetailView()
+        case .detail(let model):
+            ChartDetailView(
+                viewModel: .init(model: model, healthKitManager: self.healthKitManager)
+            )
         }
     }
 

@@ -78,7 +78,8 @@ struct LineChartCardView: View {
                     AxisMarks(values: .automatic(desiredCount: 6)) {
                         AxisGridLine()
                         AxisTick()
-                        AxisValueLabel(format: xAxisDateFormat())
+                        // TODO: Define a best way to display x axis dates
+                        // AxisValueLabel(format: xAxisDateFormat())
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -105,7 +106,7 @@ struct LineChartCardView: View {
             case .day:
                 return .dateTime.day(.twoDigits).month(.abbreviated)
             case .week:
-                return .dateTime.week(.twoDigits)
+                return .dateTime.week(.weekOfMonth)
             case .month:
                 return .dateTime.month(.abbreviated)
             case .hour:

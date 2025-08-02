@@ -107,7 +107,7 @@ struct HomeView: View {
                     getHealthData()
                 } else {
                     // FIXME: Alert Displayed even if all permissions were granted
-                    showPermissionAlert.toggle()
+//                    showPermissionAlert.toggle()
                 }
             }
         }

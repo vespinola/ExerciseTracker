@@ -10,8 +10,18 @@ import Charts
 
 struct BarChartCardView: View {
     let model: ChartModel
+    let onTap: () -> Void
 
     var body: some View {
+        Button(action: onTap, label: {
+            cardContent
+        })
+        .frame(maxWidth: .infinity)
+        .frame(height: 200)
+    }
+
+    @ViewBuilder
+    private var cardContent: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 25)
                 .fill(.white)
@@ -20,19 +30,17 @@ struct BarChartCardView: View {
                 // Header
                 HStack {
                     Text(model.title)
+                        .foregroundStyle(.black)
                     Spacer()
-                    Button {
-                        print("bar chart tapped")
-                    } label: {
-                        Image(systemName: "arrow.right.circle")
-                            .foregroundStyle(.gray)
-                    }
+                    Image(systemName: "arrow.right.circle")
+                        .foregroundStyle(.gray)
                 }
 
                 // Date
                 Text(model.date)
                     .font(.caption)
                     .bold()
+                    .foregroundStyle(.black)
                     .padding(.top, 4)
 
                 // Primary metric
@@ -63,8 +71,6 @@ struct BarChartCardView: View {
             }
             .padding()
         }
-        .frame(maxWidth: .infinity)
-        .frame(height: 200)
     }
 
     private func yAxisStride() -> Double {
@@ -154,8 +160,8 @@ struct BarChartCardView: View {
             primaryData: "7,334",
             yAxisLabel: "steps",
             xAxisStyle: .hour,
-            data: MetricDetailModel.mock
-        ))
+            data: .mock
+        ), onTap: {})
 
         BarChartCardView(model: .init(
             title: "Calories Burned",
@@ -163,7 +169,7 @@ struct BarChartCardView: View {
             primaryData: "2,500 kcal",
             yAxisLabel: "kcal",
             xAxisStyle: .day,
-            data: MetricDetailModel.mock
-        ))
+            data: .mock
+        ), onTap: {})
     }
 }

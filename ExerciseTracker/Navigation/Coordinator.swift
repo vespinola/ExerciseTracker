@@ -47,11 +47,14 @@ final class Coordinator: ObservableObject {
         case .home:
             HomeView(
                 viewModel: .init(
-                    healthKitManager: healthKitManager
+                    healthKitManager: healthKitManager,
+                    onStepsCountTap: { [weak self] in
+                        self?.push(.detail)
+                    }
                 )
             )
         case .detail:
-            EmptyView()
+            BarChartDetailView()
         }
     }
 

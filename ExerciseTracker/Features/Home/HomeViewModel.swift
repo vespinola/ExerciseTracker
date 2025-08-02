@@ -17,8 +17,6 @@ class HomeViewModel: ObservableObject {
     private var now: Date { .now }
     private let hourlyIntervalComponents = DateComponents(hour: 1)
 
-    private var didRequestHKAuth = false
-
     @Published var todayStepsCount: String = Constants.noData
     @Published var hourlyStepCounts: [(Date, Double)] = []
     @Published var todayDistance: String = Constants.noData
@@ -31,9 +29,11 @@ class HomeViewModel: ObservableObject {
     @Published var showPermissionAlert = false
 
     private let healthKitManager: HealthKitManaging
+    let onStepsCountTap: () -> Void
 
-    init(healthKitManager: HealthKitManaging) {
+    init(healthKitManager: HealthKitManaging, onStepsCountTap: @escaping () -> Void) {
         self.healthKitManager = healthKitManager
+        self.onStepsCountTap = onStepsCountTap
     }
 
     func requestAuthorization() async {

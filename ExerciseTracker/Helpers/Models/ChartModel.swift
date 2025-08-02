@@ -22,3 +22,14 @@ struct ChartModel {
     let xAxisStyle: XAxisStyle
     let data: [MetricDetailModel]
 }
+
+extension ChartModel {
+    static let mock: ChartModel = .init(
+        title: "Steps Count",
+        date: "Today",
+        primaryData: "7,334",
+        yAxisLabel: "steps",
+        xAxisStyle: .hour,
+        data: .mock
+    )
+}

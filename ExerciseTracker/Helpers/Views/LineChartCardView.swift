@@ -123,7 +123,7 @@ struct LineChartCardView: View {
             primaryData: "94 kg",
             yAxisLabel: "kg",
             xAxisStyle: .week,
-            data: MetricDetailModel.mock
+            data: .mock
         ))
 
         LineChartCardView(model: .init(
@@ -132,7 +132,7 @@ struct LineChartCardView: View {
             primaryData: "12,340",
             yAxisLabel: "steps",
             xAxisStyle: .day,
-            data: MetricDetailModel.mock
+            data: .mock
         ))
 
         LineChartCardView(model: .init(
@@ -141,7 +141,7 @@ struct LineChartCardView: View {
             primaryData: "72 bpm",
             yAxisLabel: "bpm",
             xAxisStyle: .hour,
-            data: MetricDetailModel.mock
+            data: .mock
         ))
     }
 }

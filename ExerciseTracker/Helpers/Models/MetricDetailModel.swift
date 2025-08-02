@@ -17,8 +17,8 @@ struct MetricDetailModel: Identifiable, Equatable {
     }
 }
 
-extension MetricDetailModel {
-    static var mock: [MetricDetailModel] = [
+extension [MetricDetailModel] {
+    static let mock: [MetricDetailModel] = [
         .init(date: Date(), value: 20),
         .init(date: Calendar.current.date(byAdding: .day, value: -1, to: .now) ?? .now, value: 30)
     ]

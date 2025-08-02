@@ -30,10 +30,11 @@ struct ExerciseTrackerApp: App {
 
     var body: some Scene {
         WindowGroup {
-            NavigationStack(
-                path: $coordinator.path
-            ) {
+            NavigationStack(path: $coordinator.path) {
                 coordinator.build(page: .home)
+                    .navigationDestination(for: Page.self, destination: { page in
+                        coordinator.build(page: page)
+                    })
             }
             .preferredColorScheme(.light)
         }

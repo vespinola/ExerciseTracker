@@ -61,7 +61,7 @@ struct HomeView: View {
                             yAxisLabel: "steps",
                             xAxisStyle: .hour,
                             data: stepsPerHour
-                        ))
+                        ), onTap: viewModel.onStepsCountTap)
                         BarChartCardView(model: .init(
                             title: "Step Distance",
                             date: "Today",
@@ -69,7 +69,9 @@ struct HomeView: View {
                             yAxisLabel: "distance",
                             xAxisStyle: .hour,
                             data: distancePerHour
-                        ))
+                        ), onTap: {
+
+                        })
                     }
                     LineChartCardView(model: .init(
                         title: "Body Mass",
@@ -115,7 +117,7 @@ struct HomeView: View {
 
 #Preview {
     HomeView(
-        viewModel: HomeViewModel(healthKitManager: MockHealthKitManager())
+        viewModel: HomeViewModel(healthKitManager: MockHealthKitManager(), onStepsCountTap: {})
     )
 }
 

@@ -9,7 +9,6 @@ import SwiftUI
 import HealthKitUI
 
 struct HomeView: View {
-//    @State private var showPermissionAlert = false
     @State private var timer = Timer
         .publish(every: 60, on: .main, in: .common)
         .autoconnect()

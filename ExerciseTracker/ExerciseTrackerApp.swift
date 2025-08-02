@@ -24,11 +24,18 @@ struct ExerciseTrackerApp: App {
     }()
 
     @StateObject private var healthKitManager = HealthKitManager()
+    @StateObject private var coordinator = Coordinator(
+        healthKitManager: HealthKitManager()
+    )
 
     var body: some Scene {
         WindowGroup {
-            HomeView(viewModel: .init(healthKitManager: healthKitManager))
-                .preferredColorScheme(.light)
+            NavigationStack(
+                path: $coordinator.path
+            ) {
+                coordinator.build(page: .home)
+            }
+            .preferredColorScheme(.light)
         }
         .modelContainer(sharedModelContainer)
     }

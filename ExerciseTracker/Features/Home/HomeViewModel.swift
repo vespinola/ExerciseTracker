@@ -28,15 +28,21 @@ class HomeViewModel: ObservableObject {
     @Published var currentBodyMass: String = Constants.noData
     @Published var yearlyBodyMassList: [(Date, Double)] = []
 
+    @Published var showPermissionAlert = false
+
     private let healthKitManager: HealthKitManaging
 
     init(healthKitManager: HealthKitManaging) {
         self.healthKitManager = healthKitManager
     }
 
-    func requestAuthorization() async -> Bool {
-        guard !didRequestHKAuth else { return true }
-        return await healthKitManager.requestHealthKitAuthorization()
+    func requestAuthorization() async {
+        let granted = await healthKitManager.requestHealthKitAuthorization()
+        if granted {
+            await fetchHealthData()
+        } else {
+            showPermissionAlert = true
+        }
     }
 
     func fetchHealthData() async {

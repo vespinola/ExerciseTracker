@@ -9,7 +9,7 @@ import SwiftUI
 import HealthKitUI
 
 struct HomeView: View {
-    @State private var showPermissionAlert = false
+//    @State private var showPermissionAlert = false
     @State private var timer = Timer
         .publish(every: 60, on: .main, in: .common)
         .autoconnect()
@@ -90,7 +90,7 @@ struct HomeView: View {
         .onChange(of: scenePhase) {
             getHealthData()
         }
-        .alert("Permissions Denied", isPresented: $showPermissionAlert) {
+        .alert("Permissions Denied", isPresented: $viewModel.showPermissionAlert) {
             Button("Cancel", role: .cancel) { }
             Button("Open Health Sharing") {
                 // Deeplink is not official, but it's working fine for now
@@ -103,12 +103,7 @@ struct HomeView: View {
         }
         .onAppear {
             Task {
-                if await viewModel.requestAuthorization() {
-                    getHealthData()
-                } else {
-                    // FIXME: Alert Displayed even if all permissions were granted
-//                    showPermissionAlert.toggle()
-                }
+                await viewModel.requestAuthorization()
             }
         }
     }

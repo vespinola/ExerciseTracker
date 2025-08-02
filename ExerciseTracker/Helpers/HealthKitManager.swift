@@ -57,6 +57,9 @@ final class HealthKitManager: ObservableObject, HealthKitManaging {
         HKQuantityType(.bodyMass)
     ]
 
+    private let writeDataTypes: Set<HKObjectType> = [
+    ]
+
     init(healhStore: HKHealthStore = .init()) {
         self.healthStore = healhStore
     }
@@ -64,6 +67,8 @@ final class HealthKitManager: ObservableObject, HealthKitManaging {
     func requestHealthKitAuthorization() async -> Bool {
         guard HKHealthStore.isHealthDataAvailable() else { return false }
         try? await healthStore.requestAuthorization(toShare: .init(), read: readDataTypes)
+        // For now, I don't plan to use any sharing permissions.
+        guard !writeDataTypes.isEmpty else { return true }
         var allPermissionsWereGranted = true
         readDataTypes.forEach { currentDataType in
             let status = healthStore.authorizationStatus(for: currentDataType)

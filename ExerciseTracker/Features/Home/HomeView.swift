@@ -9,12 +9,16 @@ import SwiftUI
 import HealthKitUI
 
 struct HomeView: View {
-    @State var trigger = false
+    @State private var trigger = false
     @State private var timer = Timer
         .publish(every: 60, on: .main, in: .common)
         .autoconnect()
-    @ObservedObject var viewModel: HomeViewModel = .init()
+    @StateObject var viewModel: HomeViewModel
     @Environment(\.scenePhase) var scenePhase
+
+    init(viewModel: HomeViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
 
     private var stepsPerHour: [MetricDetailModel] {
         viewModel.hourlyStepCounts.map {
@@ -42,6 +46,14 @@ struct HomeView: View {
                 LazyVStack(spacing: 16) {
                     HeaderView(model: .init(title: "Summary", image: "person.crop.circle"))
                         .padding(.top)
+                    PieChartCardView(
+                        model: .init(
+                            title: "Move",
+                            subtitle: viewModel.todayBurnedCalories,
+                            description: "Activity Ring",
+                            progress: viewModel.todayBurnedCaloriesPercentage
+                        )
+                    )
                     HStack(spacing: 16) {
                         BarChartCardView(model: .init(
                             title: "Step Count",
@@ -60,14 +72,6 @@ struct HomeView: View {
                             data: distancePerHour
                         ))
                     }
-                    PieChartCardView(
-                        model: .init(
-                            title: "Move",
-                            subtitle: viewModel.todayBurnedCalories,
-                            description: "Activity Ring",
-                            progress: viewModel.todayBurnedCaloriesPercentage
-                        )
-                    )
                     LineChartCardView(model: .init(
                         title: "Body Mass",
                         date: "Last 3 Months(in weeks)",
@@ -91,21 +95,20 @@ struct HomeView: View {
         .onChange(of: scenePhase) {
             getHealthData()
         }
-        .healthDataAccessRequest(
-            store: viewModel.healthStore,
-            readTypes: viewModel.dataType,
-            trigger: trigger
-        ) { result in
-            switch result {
-                case .success(_):
-                    Task {
-                        await viewModel.fetchHealthData()
-                    }
-                case .failure(let error):
-                    // do something
-                    print(error.localizedDescription)
-            }
-        }
+//        .healthDataAccessRequest(
+//            store: viewModel.healthStore,
+//            readTypes: viewModel.dataType,
+//            trigger: trigger
+//        ) { result in
+//            switch result {
+//                case .success(_):
+//                    Task {
+//                        await viewModel.fetchHealthData()
+//                    }
+//                case .failure(_):
+//                    break
+//            }
+//        }
     }
 
     private func getHealthData() {
@@ -117,6 +120,8 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView()
+    HomeView(
+        viewModel: HomeViewModel(healthKitManager: MockHealthKitManager())
+    )
 }
 

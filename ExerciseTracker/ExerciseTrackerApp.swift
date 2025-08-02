@@ -23,9 +23,11 @@ struct ExerciseTrackerApp: App {
         }
     }()
 
+    @StateObject private var healthKitManager = HealthKitManager()
+
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            HomeView(viewModel: .init(healthKitManager: healthKitManager))
                 .preferredColorScheme(.light)
         }
         .modelContainer(sharedModelContainer)

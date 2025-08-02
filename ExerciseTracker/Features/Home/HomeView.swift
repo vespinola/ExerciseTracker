@@ -84,15 +84,6 @@ struct HomeView: View {
                 .padding(.horizontal)
             }
         }
-        .onAppear {
-            Task {
-                if await viewModel.requestAuthorization() {
-                    getHealthData()
-                } else {
-                    showPermissionAlert.toggle()
-                }
-            }
-        }
         .onReceive(timer) { _ in
             getHealthData()
         }
@@ -102,12 +93,23 @@ struct HomeView: View {
         .alert("Permissions Denied", isPresented: $showPermissionAlert) {
             Button("Cancel", role: .cancel) { }
             Button("Open Health Sharing") {
+                // Deeplink is not official, but it's working fine for now
                 if let url = URL(string: "x-apple-health://sharingOverview") {
                     UIApplication.shared.open(url)
                 }
             }
         } message: {
             Text("Please select ExerciseTracker and enable Health permissions.")
+        }
+        .onAppear {
+            Task {
+                if await viewModel.requestAuthorization() {
+                    getHealthData()
+                } else {
+                    // FIXME: Alert Displayed even if all permissions were granted
+                    showPermissionAlert.toggle()
+                }
+            }
         }
     }
 

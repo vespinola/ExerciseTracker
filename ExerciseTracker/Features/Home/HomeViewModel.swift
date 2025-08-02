@@ -17,6 +17,8 @@ class HomeViewModel: ObservableObject {
     private var now: Date { .now }
     private let hourlyIntervalComponents = DateComponents(hour: 1)
 
+    private var didRequestHKAuth = false
+
     @Published var todayStepsCount: String = Constants.noData
     @Published var hourlyStepCounts: [(Date, Double)] = []
     @Published var todayDistance: String = Constants.noData
@@ -33,7 +35,8 @@ class HomeViewModel: ObservableObject {
     }
 
     func requestAuthorization() async -> Bool {
-        await healthKitManager.requestHealthKitAuthorization()
+        guard !didRequestHKAuth else { return true }
+        return await healthKitManager.requestHealthKitAuthorization()
     }
 
     func fetchHealthData() async {

@@ -47,12 +47,16 @@ struct HomeView: View {
                             title: "Step Count",
                             date: "Today",
                             primaryData: viewModel.todayStepsCount,
+                            yAxisLabel: "steps",
+                            xAxisStyle: .hour,
                             data: stepsPerHour
                         ))
                         BarChartCardView(model: .init(
                             title: "Step Distance",
                             date: "Today",
                             primaryData: viewModel.todayDistance,
+                            yAxisLabel: "distance",
+                            xAxisStyle: .hour,
                             data: distancePerHour
                         ))
                     }
@@ -68,6 +72,8 @@ struct HomeView: View {
                         title: "Body Mass",
                         date: "Last 3 Months(in weeks)",
                         primaryData: viewModel.currentBodyMass,
+                        yAxisLabel: "kg",
+                        xAxisStyle: .week,
                         data: bodyMassPerMonth
                     ))
                 }

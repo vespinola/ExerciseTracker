@@ -7,9 +7,18 @@
 
 import Foundation
 
+enum XAxisStyle {
+    case day
+    case week
+    case month
+    case hour
+}
+
 struct ChartModel {
     let title: String
     let date: String
     let primaryData: String
-    var data: [MetricDetailModel] = []
+    let yAxisLabel: String
+    let xAxisStyle: XAxisStyle
+    let data: [MetricDetailModel]
 }

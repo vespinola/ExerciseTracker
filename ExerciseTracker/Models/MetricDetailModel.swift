@@ -16,3 +16,10 @@ struct MetricDetailModel: Identifiable, Equatable {
         lhs.date == rhs.date && lhs.value == rhs.value
     }
 }
+
+extension MetricDetailModel {
+    static var mock: [MetricDetailModel] = [
+        .init(date: Date(), value: 20),
+        .init(date: Calendar.current.date(byAdding: .day, value: -1, to: .now) ?? .now, value: 30)
+    ]
+}

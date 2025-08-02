@@ -22,6 +22,8 @@ struct HKSummaryQueryResponse {
 }
 
 protocol HealthKitManaging {
+    func requestHealthKitAuthorization() async -> Bool
+
     func fetchMoveSummary(
         startDate: Date,
         endDate: Date
@@ -48,8 +50,7 @@ final class HealthKitManager: ObservableObject, HealthKitManaging {
     private let calendar = Calendar.current
     private let healthStore: HKHealthStore
     private var now: Date { .now }
-
-    static let dataType: Set<HKObjectType> = [
+    private let readDataTypes: Set<HKObjectType> = [
         HKQuantityType(.stepCount),
         HKQuantityType(.distanceWalkingRunning),
         HKObjectType.activitySummaryType(),
@@ -58,6 +59,18 @@ final class HealthKitManager: ObservableObject, HealthKitManaging {
 
     init(healhStore: HKHealthStore = .init()) {
         self.healthStore = healhStore
+    }
+
+    func requestHealthKitAuthorization() async -> Bool {
+        guard HKHealthStore.isHealthDataAvailable() else { return false }
+        try? await healthStore.requestAuthorization(toShare: .init(), read: readDataTypes)
+        var allPermissionsWereGranted = true
+        readDataTypes.forEach { currentDataType in
+            let status = healthStore.authorizationStatus(for: currentDataType)
+            let dataTypeAuthorized = status == .sharingAuthorized
+            allPermissionsWereGranted = allPermissionsWereGranted && dataTypeAuthorized
+        }
+        return allPermissionsWereGranted
     }
 
     func fetchMoveSummary(
@@ -124,6 +137,10 @@ final class HealthKitManager: ObservableObject, HealthKitManaging {
 }
 
 struct MockHealthKitManager: HealthKitManaging {
+    func requestHealthKitAuthorization() async -> Bool {
+        return true
+    }
+    
     func fetchMoveSummary(
         startDate: Date,
         endDate: Date

@@ -9,7 +9,7 @@ import SwiftUI
 import HealthKitUI
 
 struct HomeView: View {
-    @State private var trigger = false
+    @State private var showPermissionAlert = false
     @State private var timer = Timer
         .publish(every: 60, on: .main, in: .common)
         .autoconnect()
@@ -85,8 +85,12 @@ struct HomeView: View {
             }
         }
         .onAppear {
-            if HKHealthStore.isHealthDataAvailable() {
-                trigger.toggle()
+            Task {
+                if await viewModel.requestAuthorization() {
+                    getHealthData()
+                } else {
+                    showPermissionAlert.toggle()
+                }
             }
         }
         .onReceive(timer) { _ in
@@ -95,27 +99,21 @@ struct HomeView: View {
         .onChange(of: scenePhase) {
             getHealthData()
         }
-//        .healthDataAccessRequest(
-//            store: viewModel.healthStore,
-//            readTypes: viewModel.dataType,
-//            trigger: trigger
-//        ) { result in
-//            switch result {
-//                case .success(_):
-//                    Task {
-//                        await viewModel.fetchHealthData()
-//                    }
-//                case .failure(_):
-//                    break
-//            }
-//        }
+        .alert("Permissions Denied", isPresented: $showPermissionAlert) {
+            Button("Cancel", role: .cancel) { }
+            Button("Open Health Sharing") {
+                if let url = URL(string: "x-apple-health://sharingOverview") {
+                    UIApplication.shared.open(url)
+                }
+            }
+        } message: {
+            Text("Please select ExerciseTracker and enable Health permissions.")
+        }
     }
 
     private func getHealthData() {
         guard scenePhase == .active else { return }
-        Task {
-            await viewModel.fetchHealthData()
-        }
+        Task { await viewModel.fetchHealthData() }
     }
 }
 

@@ -18,11 +18,6 @@ struct HomeView: View {
     init(viewModel: HomeViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
-    private var bodyMassPerMonth: [MetricDetailModel] {
-        viewModel.yearlyBodyMassList.map {
-            .init(date: $0.0, value: $0.1)
-        }
-    }
 
     var body: some View {
         ZStack {
@@ -48,7 +43,7 @@ struct HomeView: View {
                             primaryData: viewModel.todayStepsCount,
                             yAxisLabel: "steps",
                             xAxisStyle: .hour,
-                            data: MetricDetailModel.map(values: viewModel.hourlyStepCounts)
+                            data: viewModel.hourlyStepCounts
                         ), onTap: {
                             viewModel.onStepsCountTap(
                                 .init(title: "Step Count")
@@ -60,7 +55,7 @@ struct HomeView: View {
                             primaryData: viewModel.todayDistance,
                             yAxisLabel: "distance",
                             xAxisStyle: .hour,
-                            data: MetricDetailModel.map(values: viewModel.hourlyDistance)
+                            data: viewModel.hourlyDistance
                         ), onTap: {
 
                         })
@@ -71,7 +66,7 @@ struct HomeView: View {
                         primaryData: viewModel.currentBodyMass,
                         yAxisLabel: "kg",
                         xAxisStyle: .week,
-                        data: bodyMassPerMonth
+                        data: viewModel.yearlyBodyMassList
                     ))
                 }
                 .padding(.horizontal)
@@ -94,10 +89,8 @@ struct HomeView: View {
         } message: {
             Text("Please select ExerciseTracker and enable Health permissions.")
         }
-        .onAppear {
-            Task {
-                await viewModel.requestAuthorization()
-            }
+        .task {
+            await viewModel.requestAuthorization()
         }
     }
 

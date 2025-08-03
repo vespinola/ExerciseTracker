@@ -25,12 +25,8 @@ struct LineChartCardView: View {
                 HStack {
                     Text(model.title)
                     Spacer()
-                    Button {
-                        print("line chart tapped")
-                    } label: {
-                        Image(systemName: "arrow.right.circle")
-                            .foregroundStyle(.gray)
-                    }
+                    Image(systemName: "arrow.right.circle")
+                        .foregroundStyle(.gray)
                 }
 
                 // Date
@@ -98,20 +94,6 @@ struct LineChartCardView: View {
             return 0...1
         }
         return (min * 0.9)...(max * 1.1)
-    }
-
-    // Choose date format based on style
-    private func xAxisDateFormat() -> Date.FormatStyle {
-        switch model.xAxisStyle {
-            case .day:
-                return .dateTime.day(.twoDigits).month(.abbreviated)
-            case .week:
-                return .dateTime.week(.weekOfMonth)
-            case .month:
-                return .dateTime.month(.abbreviated)
-            case .hour:
-                return .dateTime.hour(.defaultDigits(amPM: .abbreviated))
-        }
     }
 }
 

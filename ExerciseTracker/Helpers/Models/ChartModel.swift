@@ -7,13 +7,6 @@
 
 import Foundation
 
-enum XAxisStyle {
-    case day
-    case week
-    case month
-    case hour
-}
-
 struct ChartModel {
     let title: String
     let date: String

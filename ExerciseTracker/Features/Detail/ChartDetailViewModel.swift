@@ -8,23 +8,26 @@
 import SwiftUI
 import HealthKit
 
-struct ChartDetailModel: Hashable {
-    let title: String
-}
-
 @MainActor
 final class ChartDetailViewModel: ObservableObject {
-    @Published var todayStepsCount: String = Constants.noData
-    @Published var hourlyStepCounts: [(Date, Double)] = []
-    
+    @Published var primaryData: String = Constants.noData
+    @Published var details: [MetricDetailModel] = []
+
     let model: ChartDetailModel
+    let chartHelper: ChartHelping
+
     private let calendar = Calendar.current
     private var now: Date { .now }
     private let hourlyIntervalComponents = DateComponents(hour: 1)
     private let healthKitManager: HealthKitManaging
 
-    init(model: ChartDetailModel, healthKitManager: HealthKitManaging) {
+    init(
+        model: ChartDetailModel,
+        chartHelpers: ChartHelping = ChartHelpers(),
+        healthKitManager: HealthKitManaging
+    ) {
         self.model = model
+        self.chartHelper = chartHelpers
         self.healthKitManager = healthKitManager
     }
 
@@ -38,7 +41,7 @@ final class ChartDetailViewModel: ObservableObject {
             endDate: now,
             intervalComponents: hourlyIntervalComponents
         )
-        self.todayStepsCount = result.total
-        self.hourlyStepCounts = result.details
+        self.primaryData = result.total
+        self.details = MetricDetailModel.map(values: result.details)
     }
 }

@@ -15,13 +15,13 @@ class HomeViewModel: ObservableObject {
     private let hourlyIntervalComponents = DateComponents(hour: 1)
 
     @Published var todayStepsCount: String = Constants.noData
-    @Published var hourlyStepCounts: [(Date, Double)] = []
+    @Published var hourlyStepCounts: [MetricDetailModel] = []
     @Published var todayDistance: String = Constants.noData
-    @Published var hourlyDistance: [(Date, Double)] = []
+    @Published var hourlyDistance: [MetricDetailModel] = []
     @Published var todayBurnedCalories: String = Constants.noData
     @Published var todayBurnedCaloriesPercentage: Double = 0
     @Published var currentBodyMass: String = Constants.noData
-    @Published var yearlyBodyMassList: [(Date, Double)] = []
+    @Published var yearlyBodyMassList: [MetricDetailModel] = []
 
     @Published var showPermissionAlert = false
 
@@ -61,7 +61,7 @@ class HomeViewModel: ObservableObject {
             intervalComponents: hourlyIntervalComponents
         )
         self.todayStepsCount = result.total
-        self.hourlyStepCounts = result.details
+        self.hourlyStepCounts = MetricDetailModel.map(values: result.details)
     }
 
     private func fetchDistancePerHour() async throws {
@@ -75,7 +75,7 @@ class HomeViewModel: ObservableObject {
             intervalComponents: hourlyIntervalComponents
         )
         self.todayDistance = result.total
-        self.hourlyDistance = result.details
+        self.hourlyDistance = MetricDetailModel.map(values: result.details)
     }
 
     private func fetchMoveSummary() async throws {
@@ -94,6 +94,6 @@ class HomeViewModel: ObservableObject {
             endDate: endDate
         )
         self.currentBodyMass = result.total
-        self.yearlyBodyMassList = result.details
+        self.yearlyBodyMassList = MetricDetailModel.map(values: result.details)
     }
 }

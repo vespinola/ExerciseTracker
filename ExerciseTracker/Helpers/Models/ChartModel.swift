@@ -26,3 +26,9 @@ extension ChartModel {
         data: .mock
     )
 }
+
+extension ChartModel {
+    var dynamicDomain: ClosedRange<Double> {
+        data.dynamicDomain
+    }
+}

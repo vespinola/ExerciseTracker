@@ -10,10 +10,6 @@ import Charts
 
 struct ChartDetailView: View {
     @StateObject var viewModel: ChartDetailViewModel
-    @State private var selectedRange: String = "Day"
-    private var model: ChartDetailModel {
-        viewModel.model
-    }
 
     var body: some View {
         ZStack {
@@ -22,18 +18,17 @@ struct ChartDetailView: View {
                 .edgesIgnoringSafeArea(.all)
             VStack(alignment: .leading) {
                 HStack(spacing: .zero) {
-                    Text("\(model.title): ")
+                    Text("\(viewModel.title): ")
                         .font(.largeTitle)
                     Text(viewModel.primaryData)
                         .font(.largeTitle)
                         .foregroundStyle(.blue)
                 }
                 .padding(.top, 4)
-                Picker("Choose a range", selection: $selectedRange) {
-                    Text("D").tag("Day")
-                    Text("W").tag("Week")
-                    Text("M").tag("Month")
-                    Text("Y").tag("Year")
+                Picker("Choose a range", selection: $viewModel.xAxisStyle) {
+                    ForEach(XAxisType.supportedCases) {
+                        Text($0.shortLabelForSegmentedPicker).tag($0)
+                    }
                 }
                 .pickerStyle(.segmented)
                 GeometryReader { geometry in
@@ -63,12 +58,13 @@ struct ChartDetailView: View {
                         width: 6.0
                     )
                 }
-                .chartXScale(domain: viewModel.chartHelper.xAxisDomain(model.xAxisStyle))
+                .chartYScale(domain: viewModel.details.dynamicDomain)
+                .chartXScale(domain: viewModel.chartHelper.xAxisDomain(viewModel.xAxisStyle))
                 .chartXAxis {
-                    AxisMarks(values: viewModel.chartHelper.xAxisTicks(model.xAxisStyle)) { value in
+                    AxisMarks(values: viewModel.chartHelper.xAxisTicks(viewModel.xAxisStyle)) { value in
                         AxisGridLine()
                         AxisTick()
-                        AxisValueLabel(format: viewModel.chartHelper.xAxisDateFormat(model.xAxisStyle))
+                        AxisValueLabel(format: viewModel.chartHelper.xAxisDateFormat(viewModel.xAxisStyle))
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -82,7 +78,7 @@ struct ChartDetailView: View {
 #Preview {
     ChartDetailView(
         viewModel: .init(
-            model: .init(title: "Step Counts"),
+            model: .init(title: "Step Counts", dataOption: .stepCount),
             healthKitManager: MockHealthKitManager())
     )
 }

@@ -10,7 +10,7 @@ import HealthKitUI
 
 struct HomeView: View {
     @State private var timer = Timer
-        .publish(every: 60, on: .main, in: .common)
+        .publish(every: TimerConfiguration.waitTime, on: .main, in: .common)
         .autoconnect()
     @StateObject private var viewModel: HomeViewModel
     @Environment(\.scenePhase) var scenePhase
@@ -41,7 +41,7 @@ struct HomeView: View {
                         date: "Last 3 Months(in weeks)",
                         primaryData: viewModel.currentBodyMass,
                         yAxisLabel: "kg",
-                        xAxisStyle: .week,
+                        xAxisStyle: XAxisType.week,
                         data: viewModel.yearlyBodyMassList
                     ))
                     HStack(spacing: 16) {
@@ -50,11 +50,11 @@ struct HomeView: View {
                             date: "Today",
                             primaryData: viewModel.todayStepsCount,
                             yAxisLabel: "steps",
-                            xAxisStyle: .hour,
+                            xAxisStyle: XAxisType.hour,
                             data: viewModel.hourlyStepCounts
                         ), onTap: {
                             viewModel.onStepsCountTap(
-                                .init(title: "Step Count")
+                                .init(title: "Step Count", dataOption: .stepCount)
                             )
                         })
                         BarChartCardView(model: .init(
@@ -62,10 +62,12 @@ struct HomeView: View {
                             date: "Today",
                             primaryData: viewModel.todayDistance,
                             yAxisLabel: "distance",
-                            xAxisStyle: .hour,
+                            xAxisStyle: XAxisType.hour,
                             data: viewModel.hourlyDistance
                         ), onTap: {
-
+                            viewModel.onStepsCountTap(
+                                .init(title: "Step Distance", dataOption: .stepDistance)
+                            )
                         })
                     }
                 }

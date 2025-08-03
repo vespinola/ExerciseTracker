@@ -66,7 +66,7 @@ struct LineChartCardView: View {
                         }
                     }
                 }
-                .chartYScale(domain: dynamicYDomain())
+                .chartYScale(domain: model.dynamicDomain)
                 .chartYAxis {
                     AxisMarks(values: .stride(by: 10))
                 }
@@ -85,15 +85,6 @@ struct LineChartCardView: View {
         }
         .frame(maxWidth: .infinity)
         .frame(height: 250)
-    }
-
-    // Compute dynamic Y-axis domain
-    private func dynamicYDomain() -> ClosedRange<Double> {
-        guard let min = model.data.map(\.value).min(),
-              let max = model.data.map(\.value).max() else {
-            return 0...1
-        }
-        return (min * 0.9)...(max * 1.1)
     }
 }
 

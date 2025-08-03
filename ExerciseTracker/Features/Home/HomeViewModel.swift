@@ -11,16 +11,14 @@ import HealthKit
 @MainActor
 class HomeViewModel: ObservableObject {
     private let calendar = Calendar.current
-//    private var now: Date { .now }
-//    private let hourlyIntervalComponents = DateComponents(hour: 1)
 
-    @Published var todayStepsCount: String = Constants.noData
+    @Published var todayStepsCount: String = DefaultMessages.noData
     @Published var hourlyStepCounts: [MetricDetailModel] = []
-    @Published var todayDistance: String = Constants.noData
+    @Published var todayDistance: String = DefaultMessages.noData
     @Published var hourlyDistance: [MetricDetailModel] = []
-    @Published var todayBurnedCalories: String = Constants.noData
+    @Published var todayBurnedCalories: String = DefaultMessages.noData
     @Published var todayBurnedCaloriesPercentage: Double = 0
-    @Published var currentBodyMass: String = Constants.noData
+    @Published var currentBodyMass: String = DefaultMessages.noData
     @Published var yearlyBodyMassList: [MetricDetailModel] = []
 
     @Published var showPermissionAlert = false

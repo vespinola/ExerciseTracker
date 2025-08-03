@@ -22,6 +22,14 @@ extension [MetricDetailModel] {
         .init(date: Date(), value: 20),
         .init(date: Calendar.current.date(byAdding: .day, value: -1, to: .now) ?? .now, value: 30)
     ]
+
+    var dynamicDomain: ClosedRange<Double> {
+        guard let min = map(\.value).min(),
+              let max = map(\.value).max() else {
+            return 0...1
+        }
+        return (min * 0.9)...(max * 1.1)
+    }
 }
 
 extension MetricDetailModel {

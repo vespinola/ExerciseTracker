@@ -9,9 +9,15 @@
 struct ChartDetailModel: Hashable {
     let title: String
     let xAxisStyle: XAxisType
+    let dataOption: HealthDataOptions
 
-    init(title: String, xAxisStyle: XAxisType = .hour) {
+    init(
+        title: String,
+        dataOption: HealthDataOptions,
+        xAxisStyle: XAxisType = .hour
+    ) {
         self.title = title
+        self.dataOption = dataOption
         self.xAxisStyle = xAxisStyle
     }
 }

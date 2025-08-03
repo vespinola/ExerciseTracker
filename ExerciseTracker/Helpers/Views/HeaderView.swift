@@ -17,9 +17,14 @@ struct HeaderView: View {
 
     var body: some View {
         HStack {
-            Text(model.title)
-                .font(.title2)
-                .bold()
+            VStack(alignment: .leading) {
+                Text(model.title)
+                    .font(.title2)
+                    .bold()
+                Text(.now, style: .date)
+                    .font(.caption)
+                    .foregroundStyle(.gray)
+            }
             Spacer()
             Image(systemName: model.image)
                 .resizable()

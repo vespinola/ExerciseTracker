@@ -14,22 +14,35 @@ enum YAxisType {
     case kcal
 }
 
-enum XAxisStyle {
+enum XAxisType {
     case day
     case week
     case month
     case hour
+
+    var intervalComponents: DateComponents {
+        switch self {
+        case .hour:
+            return DateComponents(hour: 1)
+        case .day:
+            return DateComponents(day: 1)
+        case .week:
+            return DateComponents(weekOfYear: 1)
+        case .month:
+            return DateComponents(month: 1)
+        }
+    }
 }
 
 protocol ChartHelping {
-    func xAxisTicks(_ xAxisStyle: XAxisStyle) -> [Date]
-    func xAxisDateFormat(_ xAxisStyle: XAxisStyle) -> Date.FormatStyle
-    func xAxisDomain(_ xAxisStyle: XAxisStyle) -> ClosedRange<Date>
+    func xAxisTicks(_ xAxisStyle: XAxisType) -> [Date]
+    func xAxisDateFormat(_ xAxisStyle: XAxisType) -> Date.FormatStyle
+    func xAxisDomain(_ xAxisStyle: XAxisType) -> ClosedRange<Date>
     func yAxisStride(for type: YAxisType) -> Double
 }
 
 struct ChartHelpers: ChartHelping {
-    func xAxisTicks(_ xAxisStyle: XAxisStyle) -> [Date] {
+    func xAxisTicks(_ xAxisStyle: XAxisType) -> [Date] {
         let calendar = Calendar.current
         let baseDate: Date = calendar.startOfDay(for: .now)
         switch xAxisStyle {
@@ -58,7 +71,7 @@ struct ChartHelpers: ChartHelping {
         }
     }
 
-    func xAxisDateFormat(_ xAxisStyle: XAxisStyle) -> Date.FormatStyle {
+    func xAxisDateFormat(_ xAxisStyle: XAxisType) -> Date.FormatStyle {
         switch xAxisStyle {
             case .day:
                 return .dateTime.day(.twoDigits).month(.abbreviated)
@@ -71,7 +84,7 @@ struct ChartHelpers: ChartHelping {
         }
     }
 
-    func xAxisDomain(_ xAxisStyle: XAxisStyle) -> ClosedRange<Date> {
+    func xAxisDomain(_ xAxisStyle: XAxisType) -> ClosedRange<Date> {
         let calendar = Calendar.current
         let baseDate = calendar.startOfDay(for: .now)
 

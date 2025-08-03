@@ -17,8 +17,6 @@ final class ChartDetailViewModel: ObservableObject {
     let chartHelper: ChartHelping
 
     private let calendar = Calendar.current
-    private var now: Date { .now }
-    private let hourlyIntervalComponents = DateComponents(hour: 1)
     private let healthKitManager: HealthKitManaging
 
     init(
@@ -32,14 +30,14 @@ final class ChartDetailViewModel: ObservableObject {
     }
 
     func fetchStepsPerHour() async throws {
-        let startDate = calendar.startOfDay(for: now)
+        let startDate = calendar.startOfDay(for: .now)
         let result = try await healthKitManager.fetchHourlyCumulativeSum(
             for: HKQuantityType(.stepCount),
             unit: .count(),
             formatter: { "\(Int($0))" },
             startDate: startDate,
-            endDate: now,
-            intervalComponents: hourlyIntervalComponents
+            endDate: .now,
+            intervalComponents: XAxisType.hour.intervalComponents
         )
         self.primaryData = result.total
         self.details = MetricDetailModel.map(values: result.details)

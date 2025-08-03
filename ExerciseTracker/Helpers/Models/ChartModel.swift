@@ -12,7 +12,7 @@ struct ChartModel {
     let date: String
     let primaryData: String
     let yAxisLabel: String
-    let xAxisStyle: XAxisStyle
+    let xAxisStyle: XAxisType
     let data: [MetricDetailModel]
 }
 

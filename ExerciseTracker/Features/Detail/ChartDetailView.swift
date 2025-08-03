@@ -60,15 +60,15 @@ struct ChartDetailView: View {
                     BarMark(
                         x: .value("Time", element.date),
                         y: .value("Value", element.value),
-                        width: 3.0
+                        width: 6.0
                     )
                 }
-                .chartXScale(domain: viewModel.chartHelper.xAxisDomain(.hour))
+                .chartXScale(domain: viewModel.chartHelper.xAxisDomain(model.xAxisStyle))
                 .chartXAxis {
-                    AxisMarks(values: viewModel.chartHelper.xAxisTicks(.hour)) { value in
+                    AxisMarks(values: viewModel.chartHelper.xAxisTicks(model.xAxisStyle)) { value in
                         AxisGridLine()
                         AxisTick()
-                        AxisValueLabel(format: viewModel.chartHelper.xAxisDateFormat(.hour))
+                        AxisValueLabel(format: viewModel.chartHelper.xAxisDateFormat(model.xAxisStyle))
                     }
                 }
                 .frame(maxWidth: .infinity)

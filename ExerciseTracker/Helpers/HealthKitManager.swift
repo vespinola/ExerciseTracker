@@ -103,7 +103,7 @@ final class HealthKitManager: ObservableObject, HealthKitManaging {
         endDate: Date,
         intervalComponents: DateComponents
     ) async throws -> HKQueryResponse {
-        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: [.strictStartDate, .strictEndDate])
         let samplePredicate = HKSamplePredicate.quantitySample(type: quantityType, predicate: predicate)
         let queryDescriptor = HKStatisticsCollectionQueryDescriptor(
             predicate: samplePredicate,

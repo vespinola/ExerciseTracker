@@ -36,6 +36,14 @@ struct HomeView: View {
                             progress: viewModel.todayBurnedCaloriesPercentage
                         )
                     )
+                    LineChartCardView(model: .init(
+                        title: "Body Mass",
+                        date: "Last 3 Months(in weeks)",
+                        primaryData: viewModel.currentBodyMass,
+                        yAxisLabel: "kg",
+                        xAxisStyle: .week,
+                        data: viewModel.yearlyBodyMassList
+                    ))
                     HStack(spacing: 16) {
                         BarChartCardView(model: .init(
                             title: "Step Count",
@@ -60,14 +68,6 @@ struct HomeView: View {
 
                         })
                     }
-                    LineChartCardView(model: .init(
-                        title: "Body Mass",
-                        date: "Last 3 Months(in weeks)",
-                        primaryData: viewModel.currentBodyMass,
-                        yAxisLabel: "kg",
-                        xAxisStyle: .week,
-                        data: viewModel.yearlyBodyMassList
-                    ))
                 }
                 .padding(.horizontal)
             }

@@ -108,36 +108,49 @@ extension XAxisType {
 
     var xAxisTicks: [Date] {
         let calendar = Calendar.current
+        let now = Date()
         let baseDate: Date = calendar.startOfDay(for: .now)
+
         switch self {
             case .hour:
-                // Show each 3 hours within the last 24 hours
+                // Keep current behavior: ticks every 6 hours within the current day
                 return stride(from: 0, through: 24, by: 6).compactMap {
                     calendar.date(byAdding: .hour, value: $0, to: baseDate)
                 }
             case .week:
-                // Show every week within the last 52 weeks (≈ 12 months)
-                return stride(from: 0, through: 52, by: 4).compactMap {
-                    calendar.date(byAdding: .weekOfYear, value: $0, to: baseDate)
-                }
+                // Monday → Sunday of the current ISO week (7 daily ticks)
+                var iso = Calendar(identifier: .iso8601)
+                iso.timeZone = calendar.timeZone
+                let comps = iso.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now)
+                guard let startOfWeek = iso.date(from: comps) else { return [] }
+                return (0..<7).compactMap { iso.date(byAdding: .day, value: $0, to: startOfWeek) }
             case .month:
-                // Show each month within the last 12 months
-                return stride(from: 0, through: 12, by: 1).compactMap {
-                    calendar.date(byAdding: .month, value: $0, to: baseDate)
-                }
-            default: return []
+                // Days 1, 8, 15, 22, 29 of the current month (only those that exist)
+                guard let startOfMonth = calendar.dateInterval(of: .month, for: now)?.start else { return [] }
+                let daysInMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 31
+                let offsets = [0, 7, 14, 21, 28].filter { $0 < daysInMonth }
+                return offsets.compactMap { calendar.date(byAdding: .day, value: $0, to: startOfMonth) }
+            case .year:
+                // First day of each month (J…D)
+                guard let startOfYear = calendar.dateInterval(of: .year, for: now)?.start else { return [] }
+                return (0..<12).compactMap { calendar.date(byAdding: .month, value: $0, to: startOfYear) }
         }
     }
 
     var xAxisDateFormat: Date.FormatStyle {
         switch self {
             case .week:
-                return .dateTime.week(.twoDigits)
+                // Mon, Tue, Wed, ...
+                return .dateTime.weekday(.abbreviated)
             case .month:
-                return .dateTime.month(.abbreviated)
+                // 1, 8, 15, ...
+                return .dateTime.day()
             case .hour:
+                // 0, 6, 12, 18, 24 (per your current behavior)
                 return .dateTime.hour(.defaultDigits(amPM: .omitted))
-            default: return .dateTime.day()
+            case .year:
+                // J, F, M, ... (uses locale-aware narrow month symbols)
+                return .dateTime.month(.narrow)
         }
     }
 

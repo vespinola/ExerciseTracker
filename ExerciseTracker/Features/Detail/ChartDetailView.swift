@@ -54,11 +54,11 @@ struct ChartDetailView: View {
                 Chart(viewModel.details) { element in
                     BarMark(
                         x: .value("Time", element.date),
-                        y: .value("Value", element.value),
-                        width: 6.0
+                        y: .value("Value", element.value)
+                        //TODO: Revisit width value per type
                     )
                 }
-                .chartYScale(domain: viewModel.details.dynamicDomain)
+                .chartYScale(domain: viewModel.details.dynamicDomain) //TODO: Find a way to set chartYAxis
                 .chartXScale(domain: viewModel.xAxisStyle.xAxisDomain)
                 .chartXAxis {
                     AxisMarks(values: viewModel.xAxisStyle.xAxisTicks) { value in

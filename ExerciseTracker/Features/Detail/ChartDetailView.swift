@@ -40,7 +40,7 @@ struct ChartDetailView: View {
             }
             .padding(.horizontal)
             .task {
-                try? await viewModel.fetchStepsPerHour()
+                try? await viewModel.fetchDataPerInterval()
             }
         }
     }

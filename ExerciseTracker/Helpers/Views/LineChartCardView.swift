@@ -104,7 +104,7 @@ struct LineChartCardView: View {
             date: "This Week",
             primaryData: "12,340",
             yAxisLabel: "steps",
-            xAxisStyle: .day,
+            xAxisStyle: .month,
             data: .mock
         ))
 

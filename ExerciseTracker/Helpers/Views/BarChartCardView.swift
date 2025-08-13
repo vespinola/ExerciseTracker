@@ -99,7 +99,7 @@ struct BarChartCardView: View {
             date: "This Week",
             primaryData: "2,500 kcal",
             yAxisLabel: "kcal",
-            xAxisStyle: .day,
+            xAxisStyle: .week,
             data: .mock
         ), onTap: {})
     }

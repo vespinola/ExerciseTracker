@@ -12,7 +12,13 @@ import HealthKit
 final class ChartDetailViewModel: ObservableObject {
     @Published var primaryData: String = DefaultMessages.noData
     @Published var details: [MetricDetailModel] = []
-    @Published var xAxisStyle: XAxisType
+    @Published var xAxisStyle: XAxisType {
+        didSet {
+            Task {
+                try? await fetchDataPerInterval()
+            }
+        }
+    }
 
     let title: String
     let dataOption: HealthDataOptions
@@ -33,15 +39,16 @@ final class ChartDetailViewModel: ObservableObject {
         self.healthKitManager = healthKitManager
     }
     
-    func fetchStepsPerHour() async throws {
-        let startDate = calendar.startOfDay(for: .now)
+    func fetchDataPerInterval() async throws {
+        let startDate = xAxisStyle.startDate ?? .now
+        let endDate = xAxisStyle.endDate ?? .now
         let result = try await healthKitManager.fetchHourlyCumulativeSum(
             for: dataOption.quantityType,
             unit: dataOption.unit,
             formatter: { dataOption.formatted(value: $0) }, //TODO: Check this part later
             startDate: startDate,
-            endDate: .now,
-            intervalComponents: self.xAxisStyle.intervalComponents
+            endDate: endDate,
+            intervalComponents: xAxisStyle.intervalComponents
         )
         self.primaryData = result.total
         self.details = MetricDetailModel.map(values: result.details)

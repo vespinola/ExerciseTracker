@@ -17,10 +17,10 @@ struct ChartDetailView: View {
                 .fill(Color.gray.opacity(0.1))
                 .edgesIgnoringSafeArea(.all)
             VStack(alignment: .leading) {
-                HStack(spacing: .zero) {
+                Group {
                     Text("\(viewModel.title): ")
                         .font(.largeTitle)
-                    Text(viewModel.primaryData)
+                    + Text(viewModel.primaryData)
                         .font(.largeTitle)
                         .foregroundStyle(.blue)
                 }
@@ -58,6 +58,7 @@ struct ChartDetailView: View {
                         //TODO: Revisit width value per type
                     )
                 }
+                .animation(.smooth, value: viewModel.details)
                 .chartYScale(domain: viewModel.details.dynamicDomain) //TODO: Find a way to set chartYAxis
                 .chartXScale(domain: viewModel.xAxisStyle.xAxisDomain)
                 .chartXAxis {

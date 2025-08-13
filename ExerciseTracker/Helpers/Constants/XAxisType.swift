@@ -12,9 +12,9 @@ enum XAxisType: String, CaseIterable, Identifiable {
     case week = "Week"
     case month = "Month"
     case year = "Year"
-
+    
     var id: String { rawValue }
-
+    
     // key point to define the buckets
     var intervalComponents: DateComponents {
         switch self {
@@ -28,7 +28,7 @@ enum XAxisType: String, CaseIterable, Identifiable {
                 return DateComponents(month: 1)
         }
     }
-
+    
     var shortLabel: String {
         switch self {
             case .hour: return "H"
@@ -37,7 +37,7 @@ enum XAxisType: String, CaseIterable, Identifiable {
             case .year: return "Y"
         }
     }
-
+    
     /// Short label for the picker
     var shortLabelForSegmentedPicker: String {
         switch self {
@@ -47,7 +47,7 @@ enum XAxisType: String, CaseIterable, Identifiable {
             case .year: return "Y"
         }
     }
-
+    
     static var supportedCases: [XAxisType] { allCases }
 }
 
@@ -73,7 +73,7 @@ extension XAxisType {
                 return Calendar.current.dateInterval(of: .year, for: now)?.start
         }
     }
-
+    
     /// Returns the relevant end date for each XAxisType case, aligned to the next interval boundary.
     var endDate: Date? {
         let now = Date()
@@ -105,12 +105,12 @@ extension XAxisType {
                 return nil
         }
     }
-
+    
     var xAxisTicks: [Date] {
         let calendar = Calendar.current
         let now = Date()
         let baseDate: Date = calendar.startOfDay(for: .now)
-
+        
         switch self {
             case .hour:
                 // Keep current behavior: ticks every 6 hours within the current day
@@ -136,7 +136,7 @@ extension XAxisType {
                 return (0..<12).compactMap { calendar.date(byAdding: .month, value: $0, to: startOfYear) }
         }
     }
-
+    
     var xAxisDateFormat: Date.FormatStyle {
         switch self {
             case .week:
@@ -153,21 +153,25 @@ extension XAxisType {
                 return .dateTime.month(.narrow)
         }
     }
-
+    
     var xAxisDomain: ClosedRange<Date> {
         let calendar = Calendar.current
         let now = Date()
         let startOfToday = calendar.startOfDay(for: now)
-
+        
         switch self {
             case .hour:
                 let start = startOfToday
                 let end = calendar.date(byAdding: .hour, value: 23, to: start) ?? now
                 return start...end
             case .week:
-                let startOfWeek = calendar.dateInterval(of: .weekOfYear, for: now)?.start ?? startOfToday
-                let startOfNextWeek = calendar.date(byAdding: .weekOfYear, value: 1, to: startOfWeek) ?? now
-                let end = calendar.date(byAdding: .second, value: -1, to: startOfNextWeek) ?? startOfNextWeek
+                // Align domain with ISO week (Mon–Sun) so Sunday is included
+                var iso = Calendar(identifier: .iso8601)
+                iso.timeZone = calendar.timeZone
+                let comps = iso.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now)
+                let startOfWeek = iso.date(from: comps) ?? startOfToday
+                let startOfNextWeek = iso.date(byAdding: .day, value: 7, to: startOfWeek) ?? now
+                let end = iso.date(byAdding: .second, value: -1, to: startOfNextWeek) ?? startOfNextWeek
                 return startOfWeek...end
             case .month:
                 let startOfMonth = calendar.dateInterval(of: .month, for: now)?.start ?? startOfToday

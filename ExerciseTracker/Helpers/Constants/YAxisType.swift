@@ -12,3 +12,14 @@ enum YAxisType {
     case bpm
     case kcal
 }
+
+extension YAxisType {
+    var yAxisStride: Double {
+        switch self {
+            case .steps: return 1000
+            case .kg: return 5
+            case .bpm: return 10
+            case .kcal: return 50
+        }
+    }
+}

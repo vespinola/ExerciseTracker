@@ -10,16 +10,13 @@ import Charts
 
 struct BarChartCardView: View {
     private let model: ChartModel
-    private let chartHelpers: ChartHelping
     private let onTap: () -> Void
 
     init(
         model: ChartModel,
-        chartHelpers: ChartHelping = ChartHelpers(),
         onTap: @escaping () -> Void
     ) {
         self.model = model
-        self.chartHelpers = chartHelpers
         self.onTap = onTap
     }
 
@@ -66,12 +63,12 @@ struct BarChartCardView: View {
                     )
                 }
                 .chartYAxis(.hidden)
-                .chartXScale(domain: chartHelpers.xAxisDomain(model.xAxisStyle))
+                .chartXScale(domain: model.xAxisStyle.xAxisDomain)
                 .chartXAxis {
-                    AxisMarks(values: chartHelpers.xAxisTicks(model.xAxisStyle)) { value in
+                    AxisMarks(values: model.xAxisStyle.xAxisTicks) { value in
                         AxisGridLine()
                         AxisTick()
-                        AxisValueLabel(format: chartHelpers.xAxisDateFormat(model.xAxisStyle))
+                        AxisValueLabel(format: model.xAxisStyle.xAxisDateFormat)
                     }
                 }
                 .frame(maxWidth: .infinity)

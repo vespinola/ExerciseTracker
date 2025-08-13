@@ -59,12 +59,12 @@ struct ChartDetailView: View {
                     )
                 }
                 .chartYScale(domain: viewModel.details.dynamicDomain)
-                .chartXScale(domain: viewModel.chartHelper.xAxisDomain(viewModel.xAxisStyle))
+                .chartXScale(domain: viewModel.xAxisStyle.xAxisDomain)
                 .chartXAxis {
-                    AxisMarks(values: viewModel.chartHelper.xAxisTicks(viewModel.xAxisStyle)) { value in
+                    AxisMarks(values: viewModel.xAxisStyle.xAxisTicks) { value in
                         AxisGridLine()
                         AxisTick()
-                        AxisValueLabel(format: viewModel.chartHelper.xAxisDateFormat(viewModel.xAxisStyle))
+                        AxisValueLabel(format: viewModel.xAxisStyle.xAxisDateFormat)
                     }
                 }
                 .frame(maxWidth: .infinity)

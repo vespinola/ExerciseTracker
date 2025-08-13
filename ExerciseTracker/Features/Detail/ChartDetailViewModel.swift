@@ -22,20 +22,17 @@ final class ChartDetailViewModel: ObservableObject {
 
     let title: String
     let dataOption: HealthDataOptions
-    let chartHelper: ChartHelping
     
     private let calendar = Calendar.current
     private let healthKitManager: HealthKitManaging
     
     init(
         model: ChartDetailModel,
-        chartHelpers: ChartHelping = ChartHelpers(),
         healthKitManager: HealthKitManaging
     ) {
         self.title = model.title
         self.xAxisStyle = model.xAxisStyle
         self.dataOption = model.dataOption
-        self.chartHelper = chartHelpers
         self.healthKitManager = healthKitManager
     }
     

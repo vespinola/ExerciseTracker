@@ -9,9 +9,7 @@ import SwiftUI
 import HealthKitUI
 
 struct HomeView: View {
-    @State private var timer = Timer
-        .publish(every: TimerConfiguration.waitTime, on: .main, in: .common)
-        .autoconnect()
+    @State private var timer: Timer?
     @StateObject private var viewModel: HomeViewModel
     @Environment(\.scenePhase) var scenePhase
 
@@ -74,11 +72,17 @@ struct HomeView: View {
                 .padding(.horizontal)
             }
         }
-        .onReceive(timer) { _ in
-            getHealthData()
-        }
         .onChange(of: scenePhase) {
             getHealthData()
+        }
+        .onAppear {
+            timer = Timer.scheduledTimer(withTimeInterval: TimerConfiguration.waitTime, repeats: true) { _ in
+                getHealthData()
+            }
+        }
+        .onDisappear {
+            timer?.invalidate()
+            timer = nil
         }
         .alert("Permissions Denied", isPresented: $viewModel.showPermissionAlert) {
             Button("Cancel", role: .cancel) { }

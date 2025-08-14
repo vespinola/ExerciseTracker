@@ -58,6 +58,7 @@ final class HealthKitManager: ObservableObject, HealthKitManaging {
     ]
 
     private let writeDataTypes: Set<HKObjectType> = [
+        HKQuantityType(.bodyMass)
     ]
 
     init(healhStore: HKHealthStore = .init()) {

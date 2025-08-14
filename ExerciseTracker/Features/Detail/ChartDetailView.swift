@@ -19,11 +19,10 @@ struct ChartDetailView: View {
             VStack(alignment: .leading) {
                 Group {
                     Text("\(viewModel.title): ")
-                        .font(.largeTitle)
                     + Text(viewModel.primaryData)
-                        .font(.largeTitle)
                         .foregroundStyle(.blue)
                 }
+                .font(.largeTitle)
                 .padding(.top, 4)
                 Picker("Choose a range", selection: $viewModel.xAxisStyle) {
                     ForEach(XAxisType.supportedCases) {

@@ -25,8 +25,8 @@ struct LineChartCardView: View {
                 HStack {
                     Text(model.title)
                     Spacer()
-                    Image(systemName: "arrow.right.circle")
-                        .foregroundStyle(.gray)
+//                    Image(systemName: "arrow.right.circle")
+//                        .foregroundStyle(.gray)
                 }
 
                 // Date

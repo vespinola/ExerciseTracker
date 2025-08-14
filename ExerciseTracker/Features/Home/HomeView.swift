@@ -24,7 +24,7 @@ struct HomeView: View {
                 .edgesIgnoringSafeArea(.all)
             ScrollView {
                 LazyVStack(spacing: 16) {
-                    HeaderView(model: .init(title: "Summary", image: "person.crop.circle"))
+                    HeaderView(model: .init(title: "Summary", image: "figure.walk.circle.fill", action: viewModel.onAddWeidhtTap))
                         .padding(.top)
                     PieChartCardView(
                         model: .init(
@@ -84,17 +84,17 @@ struct HomeView: View {
             timer?.invalidate()
             timer = nil
         }
-        .alert("Permissions Denied", isPresented: $viewModel.showPermissionAlert) {
-            Button("Cancel", role: .cancel) { }
-            Button("Open Health Sharing") {
-                // Deeplink is not official, but it's working fine for now
-                if let url = URL(string: "x-apple-health://sharingOverview") {
-                    UIApplication.shared.open(url)
-                }
-            }
-        } message: {
-            Text("Please select ExerciseTracker and enable Health permissions.")
-        }
+//        .alert("Permissions Denied", isPresented: $viewModel.showPermissionAlert) {
+//            Button("Cancel", role: .cancel) { }
+//            Button("Open Health Sharing") {
+//                // Deeplink is not official, but it's working fine for now
+//                if let url = URL(string: "x-apple-health://sharingOverview") {
+//                    UIApplication.shared.open(url)
+//                }
+//            }
+//        } message: {
+//            Text("Please select ExerciseTracker and enable Health permissions.")
+//        }
         .task {
             await viewModel.requestAuthorization()
         }
@@ -110,7 +110,8 @@ struct HomeView: View {
     HomeView(
         viewModel: HomeViewModel(
             healthKitManager: MockHealthKitManager(),
-            onStepsCountTap: { _ in }
+            onStepsCountTap: { _ in },
+            onAddWeidhtTap: {}
         )
     )
 }

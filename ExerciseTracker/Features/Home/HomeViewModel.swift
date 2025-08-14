@@ -25,10 +25,16 @@ class HomeViewModel: ObservableObject {
 
     private let healthKitManager: HealthKitManaging
     let onStepsCountTap: (ChartDetailModel) -> Void
+    let onAddWeidhtTap: () -> Void
 
-    init(healthKitManager: HealthKitManaging, onStepsCountTap: @escaping (ChartDetailModel) -> Void) {
+    init(
+        healthKitManager: HealthKitManaging,
+        onStepsCountTap: @escaping (ChartDetailModel) -> Void,
+        onAddWeidhtTap: @escaping () -> Void
+    ) {
         self.healthKitManager = healthKitManager
         self.onStepsCountTap = onStepsCountTap
+        self.onAddWeidhtTap = onAddWeidhtTap
     }
 
     func requestAuthorization() async {
@@ -83,7 +89,7 @@ class HomeViewModel: ObservableObject {
     }
 
     private func fetchBodyMassData() async throws {
-        let startDate = calendar.date(byAdding: .month, value: -3, to: .now) ?? .now
+        let startDate = calendar.date(byAdding: .month, value: -6, to: .now) ?? .now
         let endDate: Date = .now
         let result = try await healthKitManager.fetchBodyMassData(
             unit: .gramUnit(with: .kilo),

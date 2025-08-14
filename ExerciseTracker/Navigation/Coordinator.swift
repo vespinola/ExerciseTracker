@@ -19,8 +19,20 @@ enum Page: Hashable, Identifiable {
     }
 }
 
+enum Sheet: Identifiable {
+    case addWeight
+
+    var id: String {
+        switch self {
+            case .addWeight:
+                return "addWeight"
+        }
+    }
+}
+
 final class Coordinator: ObservableObject {
     @Published var path = NavigationPath()
+    @Published var sheet: Sheet?
 
     // MARK: DI
     private let healthKitManager: HealthKitManaging
@@ -41,6 +53,14 @@ final class Coordinator: ObservableObject {
         path.removeLast(path.count)
     }
 
+    func present(sheet: Sheet) {
+        self.sheet = sheet
+    }
+
+    func dismissSheet() {
+        self.sheet = nil
+    }
+
     @MainActor @ViewBuilder
     func build(page: Page) -> some View {
         switch page {
@@ -49,7 +69,12 @@ final class Coordinator: ObservableObject {
                 viewModel: .init(
                     healthKitManager: healthKitManager,
                     onStepsCountTap: { [weak self] model in
-                        self?.push(.detail(model))
+                        guard let self else { return }
+                        push(.detail(model))
+                    },
+                    onAddWeidhtTap: { [weak self] in
+                        guard let self else { return }
+                        present(sheet: .addWeight)
                     }
                 )
             )
@@ -60,4 +85,11 @@ final class Coordinator: ObservableObject {
         }
     }
 
+    @ViewBuilder
+    func build(sheet: Sheet) -> some View {
+        switch sheet {
+            case .addWeight:
+                AddWeightView()
+        }
+    }
 }

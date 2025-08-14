@@ -62,8 +62,8 @@
             filePath = "ExerciseTracker/Features/Home/HomeViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
             landmarkName = "requestAuthorization()"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,8 +78,8 @@
             filePath = "ExerciseTracker/Features/Home/HomeViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
             landmarkName = "requestAuthorization()"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "ExerciseTracker/Helpers/HealthKitManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "requestHealthKitAuthorization()"
             landmarkType = "7">
          </BreakpointContent>
@@ -104,22 +104,6 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "945CF539-DE0A-4DEB-9C1A-C1F89A49EB7A"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ExerciseTracker/Helpers/HealthKitManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
-            landmarkName = "requestHealthKitAuthorization()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D8135CAF-4F48-48C3-980C-E32BA035F2F4"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -135,6 +119,22 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "D8135CAF-4F48-48C3-980C-E32BA035F2F4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ExerciseTracker/Helpers/HealthKitManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "requestHealthKitAuthorization()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             uuid = "A7B7E75D-24F6-46A5-8AD8-7FECBFF3466F"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -142,8 +142,8 @@
             filePath = "ExerciseTracker/Helpers/HealthKitManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
             landmarkName = "requestHealthKitAuthorization()"
             landmarkType = "7">
          </BreakpointContent>
@@ -158,8 +158,8 @@
             filePath = "ExerciseTracker/Navigation/Coordinator.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "build(page:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -174,8 +174,8 @@
             filePath = "ExerciseTracker/Navigation/Coordinator.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "build(page:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -190,8 +190,8 @@
             filePath = "ExerciseTracker/Navigation/Coordinator.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "build(page:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -206,8 +206,8 @@
             filePath = "ExerciseTracker/Navigation/Coordinator.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
             landmarkName = "build(page:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -222,8 +222,8 @@
             filePath = "ExerciseTracker/Navigation/Coordinator.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
             landmarkName = "push(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -238,8 +238,8 @@
             filePath = "ExerciseTracker/Features/Home/HomeViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "fetchStepsPerHour()"
             landmarkType = "7">
          </BreakpointContent>
@@ -254,8 +254,8 @@
             filePath = "ExerciseTracker/Navigation/Coordinator.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
             landmarkName = "build(page:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -270,8 +270,8 @@
             filePath = "ExerciseTracker/Navigation/Coordinator.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
             landmarkName = "build(page:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -286,8 +286,8 @@
             filePath = "ExerciseTracker/Helpers/HealthKitManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
             landmarkName = "fetchHourlyCumulativeSum(for:unit:formatter:startDate:endDate:intervalComponents:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -334,8 +334,8 @@
             filePath = "ExerciseTracker/Helpers/HealthKitManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "fetchHourlyCumulativeSum(for:unit:formatter:startDate:endDate:intervalComponents:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -354,36 +354,6 @@
             endingLineNumber = "42"
             landmarkName = "fetchDataPerInterval()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "1DF062B5-8550-4877-9608-A4107127B450 - 8303ba9bb095ee47"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for ExerciseTracker.ChartDetailViewModel.fetchDataPerInterval() async throws -&gt; ()"
-                  moduleName = "ExerciseTracker.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vlezcano/Documents/workspace/ExerciseTracker/ExerciseTracker/Features/Detail/ChartDetailViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "42"
-                  endingLineNumber = "42">
-               </Location>
-               <Location
-                  uuid = "1DF062B5-8550-4877-9608-A4107127B450 - c950e2202893c442"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(4) suspend resume partial function for ExerciseTracker.ChartDetailViewModel.fetchDataPerInterval() async throws -&gt; ()"
-                  moduleName = "ExerciseTracker.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vlezcano/Documents/workspace/ExerciseTracker/ExerciseTracker/Features/Detail/ChartDetailViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "42"
-                  endingLineNumber = "42">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -412,8 +382,8 @@
             filePath = "ExerciseTracker/Helpers/HealthKitManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
             landmarkName = "fetchHourlyCumulativeSum(for:unit:formatter:startDate:endDate:intervalComponents:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -428,8 +398,8 @@
             filePath = "ExerciseTracker/Helpers/HealthKitManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
             landmarkName = "fetchHourlyCumulativeSum(for:unit:formatter:startDate:endDate:intervalComponents:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -444,54 +414,10 @@
             filePath = "ExerciseTracker/Helpers/HealthKitManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
             landmarkName = "fetchHourlyCumulativeSum(for:unit:formatter:startDate:endDate:intervalComponents:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "F97A250B-0836-47C9-ADB2-3E0D4791A4A8 - 34c558152a6c10e2"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for ExerciseTracker.HealthKitManager.fetchHourlyCumulativeSum(for: __C.HKQuantityType, unit: __C.HKUnit, formatter: (Swift.Double) -&gt; Swift.String, startDate: Foundation.Date, endDate: Foundation.Date, intervalComponents: Foundation.DateComponents) async throws -&gt; ExerciseTracker.HKQueryResponse"
-                  moduleName = "ExerciseTracker.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vlezcano/Documents/workspace/ExerciseTracker/ExerciseTracker/Helpers/HealthKitManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "114"
-                  endingLineNumber = "114">
-               </Location>
-               <Location
-                  uuid = "F97A250B-0836-47C9-ADB2-3E0D4791A4A8 - 58fa0ebd928adeed"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(4) suspend resume partial function for ExerciseTracker.HealthKitManager.fetchHourlyCumulativeSum(for: __C.HKQuantityType, unit: __C.HKUnit, formatter: (Swift.Double) -&gt; Swift.String, startDate: Foundation.Date, endDate: Foundation.Date, intervalComponents: Foundation.DateComponents) async throws -&gt; ExerciseTracker.HKQueryResponse"
-                  moduleName = "ExerciseTracker.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vlezcano/Documents/workspace/ExerciseTracker/ExerciseTracker/Helpers/HealthKitManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "114"
-                  endingLineNumber = "114">
-               </Location>
-               <Location
-                  uuid = "F97A250B-0836-47C9-ADB2-3E0D4791A4A8 - 58fa0ebd928adeed"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(4) suspend resume partial function for ExerciseTracker.HealthKitManager.fetchHourlyCumulativeSum(for: __C.HKQuantityType, unit: __C.HKUnit, formatter: (Swift.Double) -&gt; Swift.String, startDate: Foundation.Date, endDate: Foundation.Date, intervalComponents: Foundation.DateComponents) async throws -&gt; ExerciseTracker.HKQueryResponse"
-                  moduleName = "ExerciseTracker.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vlezcano/Documents/workspace/ExerciseTracker/ExerciseTracker/Helpers/HealthKitManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "114"
-                  endingLineNumber = "114">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -504,8 +430,8 @@
             filePath = "ExerciseTracker/Helpers/HealthKitManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
             landmarkName = "fetchHourlyCumulativeSum(for:unit:formatter:startDate:endDate:intervalComponents:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -520,40 +446,10 @@
             filePath = "ExerciseTracker/Helpers/HealthKitManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
             landmarkName = "fetchHourlyCumulativeSum(for:unit:formatter:startDate:endDate:intervalComponents:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "066D39AF-6DC6-4D2A-84F1-43A2D95FF3EC - fcf0665ef1954caa"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for ExerciseTracker.HealthKitManager.fetchHourlyCumulativeSum(for: __C.HKQuantityType, unit: __C.HKUnit, formatter: (Swift.Double) -&gt; Swift.String, startDate: Foundation.Date, endDate: Foundation.Date, intervalComponents: Foundation.DateComponents) async throws -&gt; ExerciseTracker.HKQueryResponse"
-                  moduleName = "ExerciseTracker.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vlezcano/Documents/workspace/ExerciseTracker/ExerciseTracker/Helpers/HealthKitManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "116"
-                  endingLineNumber = "116">
-               </Location>
-               <Location
-                  uuid = "066D39AF-6DC6-4D2A-84F1-43A2D95FF3EC - d9875ba75a0d3634"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.HKStatistics, Swift.UnsafeMutablePointer&lt;ObjectiveC.ObjCBool&gt;) -&gt; () in ExerciseTracker.HealthKitManager.fetchHourlyCumulativeSum(for: __C.HKQuantityType, unit: __C.HKUnit, formatter: (Swift.Double) -&gt; Swift.String, startDate: Foundation.Date, endDate: Foundation.Date, intervalComponents: Foundation.DateComponents) async throws -&gt; ExerciseTracker.HKQueryResponse"
-                  moduleName = "ExerciseTracker.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vlezcano/Documents/workspace/ExerciseTracker/ExerciseTracker/Helpers/HealthKitManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "115"
-                  endingLineNumber = "115">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -570,50 +466,54 @@
             endingLineNumber = "80"
             landmarkName = "body"
             landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "A89F0905-3126-4355-87AD-F6E283C08EC3 - 807b3e80e4c113a9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ExerciseTracker.HomeView.body.getter : some"
-                  moduleName = "ExerciseTracker.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vlezcano/Documents/workspace/ExerciseTracker/ExerciseTracker/Features/Home/HomeView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "80"
-                  endingLineNumber = "80">
-               </Location>
-               <Location
-                  uuid = "A89F0905-3126-4355-87AD-F6E283C08EC3 - 2fe9d7d45a1cd477"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #3 () -&gt; () in ExerciseTracker.HomeView.body.getter : some"
-                  moduleName = "ExerciseTracker.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vlezcano/Documents/workspace/ExerciseTracker/ExerciseTracker/Features/Home/HomeView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "80"
-                  endingLineNumber = "80">
-               </Location>
-               <Location
-                  uuid = "A89F0905-3126-4355-87AD-F6E283C08EC3 - bac964f658f5ad64"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Sendable (__C.NSTimer) -&gt; () in closure #3 () -&gt; () in ExerciseTracker.HomeView.body.getter : some"
-                  moduleName = "ExerciseTracker.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vlezcano/Documents/workspace/ExerciseTracker/ExerciseTracker/Features/Home/HomeView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "80"
-                  endingLineNumber = "80">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4D37A61B-A2CE-4193-ADA2-27C96AEC303D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ExerciseTracker/Navigation/Coordinator.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "build(page:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DC6BE7CA-40A6-49EF-8701-DD08DF4E020D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ExerciseTracker/Navigation/Coordinator.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "build(page:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "347152CA-63FF-4D7A-9AC4-90F65ACB139C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ExerciseTracker/Navigation/Coordinator.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
+            landmarkName = "build(sheet:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

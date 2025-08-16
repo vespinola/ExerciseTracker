@@ -8,20 +8,20 @@
 import SwiftUI
 import HealthKit
 
-@MainActor
-class HomeViewModel: ObservableObject {
+@MainActor @Observable
+class HomeViewModel {
     private let calendar = Calendar.current
 
-    @Published var todayStepsCount: String = DefaultMessages.noData
-    @Published var hourlyStepCounts: [MetricDetailModel] = []
-    @Published var todayDistance: String = DefaultMessages.noData
-    @Published var hourlyDistance: [MetricDetailModel] = []
-    @Published var todayBurnedCalories: String = DefaultMessages.noData
-    @Published var todayBurnedCaloriesPercentage: Double = 0
-    @Published var currentBodyMass: String = DefaultMessages.noData
-    @Published var yearlyBodyMassList: [MetricDetailModel] = []
+    var todayStepsCount: String = DefaultMessages.noData
+    var hourlyStepCounts: [MetricDetailModel] = []
+    var todayDistance: String = DefaultMessages.noData
+    var hourlyDistance: [MetricDetailModel] = []
+    var todayBurnedCalories: String = DefaultMessages.noData
+    var todayBurnedCaloriesPercentage: Double = 0
+    var currentBodyMass: String = DefaultMessages.noData
+    var yearlyBodyMassList: [MetricDetailModel] = []
 
-    @Published var showPermissionAlert = false
+    var showPermissionAlert = false
 
     private let healthKitManager: HealthKitManaging
     let onStepsCountTap: (ChartDetailModel) -> Void
@@ -88,7 +88,7 @@ class HomeViewModel: ObservableObject {
         self.todayBurnedCaloriesPercentage = (result.burnedCalories / result.goalCalories) * 100
     }
 
-    private func fetchBodyMassData() async throws {
+    func fetchBodyMassData() async throws {
         let startDate = calendar.date(byAdding: .month, value: -6, to: .now) ?? .now
         let endDate: Date = .now
         let result = try await healthKitManager.fetchBodyMassData(

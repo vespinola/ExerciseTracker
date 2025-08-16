@@ -8,11 +8,11 @@
 import SwiftUI
 import HealthKit
 
-@MainActor
-final class ChartDetailViewModel: ObservableObject {
-    @Published var primaryData: String = DefaultMessages.noData
-    @Published var details: [MetricDetailModel] = []
-    @Published var xAxisStyle: XAxisType {
+@MainActor @Observable
+final class ChartDetailViewModel {
+    var primaryData: String = DefaultMessages.noData
+    var details: [MetricDetailModel] = []
+    var xAxisStyle: XAxisType {
         didSet {
             Task {
                 try? await fetchDataPerInterval()

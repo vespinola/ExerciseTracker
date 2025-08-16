@@ -9,7 +9,7 @@ import SwiftUI
 import Charts
 
 struct ChartDetailView: View {
-    @StateObject var viewModel: ChartDetailViewModel
+    @State var viewModel: ChartDetailViewModel
 
     var body: some View {
         ZStack {

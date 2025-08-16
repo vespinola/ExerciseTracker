@@ -66,6 +66,7 @@ struct AddWeightView: View {
                                 Button("Save") {
                                     guard let convertedWeight = Double(weigth) else { return }
                                     healthKitManager.saveBodyMass(date: selectedDate, bodyBass: convertedWeight)
+                                    NotificationCenter.default.post(name: .weightDidChange, object: nil)
                                     dismiss()
                                 }
                             }

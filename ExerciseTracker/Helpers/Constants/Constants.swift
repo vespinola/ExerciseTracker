@@ -10,5 +10,5 @@ enum DefaultMessages {
 }
 
 enum TimerConfiguration {
-    static let waitTime: Double = 60
+    static let waitTime: Double = 120
 }

@@ -10,11 +10,11 @@ import HealthKitUI
 
 struct HomeView: View {
     @State private var timer: Timer?
-    @StateObject private var viewModel: HomeViewModel
+    @State private var viewModel: HomeViewModel
     @Environment(\.scenePhase) var scenePhase
 
     init(viewModel: HomeViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
+        _viewModel = State(wrappedValue: viewModel)
     }
 
     var body: some View {
@@ -84,6 +84,11 @@ struct HomeView: View {
             timer?.invalidate()
             timer = nil
         }
+        .onReceive(NotificationCenter.default.publisher(for: .weightDidChange), perform: { _ in
+            Task {
+                try? await viewModel.fetchBodyMassData()
+            }
+        })
         .alert("Permissions Denied", isPresented: $viewModel.showPermissionAlert) {
             Button("Cancel", role: .cancel) { }
             Button("Open Health Sharing") {

@@ -84,17 +84,17 @@ struct HomeView: View {
             timer?.invalidate()
             timer = nil
         }
-//        .alert("Permissions Denied", isPresented: $viewModel.showPermissionAlert) {
-//            Button("Cancel", role: .cancel) { }
-//            Button("Open Health Sharing") {
-//                // Deeplink is not official, but it's working fine for now
-//                if let url = URL(string: "x-apple-health://sharingOverview") {
-//                    UIApplication.shared.open(url)
-//                }
-//            }
-//        } message: {
-//            Text("Please select ExerciseTracker and enable Health permissions.")
-//        }
+        .alert("Permissions Denied", isPresented: $viewModel.showPermissionAlert) {
+            Button("Cancel", role: .cancel) { }
+            Button("Open Health Sharing") {
+                // Deeplink is not official, but it's working fine for now
+                if let url = URL(string: "x-apple-health://sharingOverview") {
+                    UIApplication.shared.open(url)
+                }
+            }
+        } message: {
+            Text("Please select ExerciseTracker and enable Health permissions.")
+        }
         .task {
             await viewModel.requestAuthorization()
         }

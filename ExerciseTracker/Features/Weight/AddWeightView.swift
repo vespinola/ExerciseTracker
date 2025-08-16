@@ -11,8 +11,12 @@ struct AddWeightView: View {
     @Environment(\.dismiss) var dismiss
     @FocusState private var isTextFieldFocused: Bool
     @State private var selectedDate = Date()
-    @State private var selectedTime = Date()
     @State private var weigth: String = ""
+    private var healthKitManager: HealthKitManaging
+
+    init(healthKitManager: HealthKitManaging) {
+        self.healthKitManager = healthKitManager
+    }
 
     var body: some View {
         NavigationStack {
@@ -27,7 +31,7 @@ struct AddWeightView: View {
                         )
                         DatePicker(
                             "Time",
-                            selection: $selectedTime,
+                            selection: $selectedDate,
                             in: ...Date(),
                             displayedComponents: .hourAndMinute
                         )
@@ -60,7 +64,9 @@ struct AddWeightView: View {
                         .toolbar {
                             ToolbarItem(placement: .topBarTrailing) {
                                 Button("Save") {
-                                    dismiss() // Action for the button, e.g., dismiss the sheet
+                                    guard let convertedWeight = Double(weigth) else { return }
+                                    healthKitManager.saveBodyMass(date: selectedDate, bodyBass: convertedWeight)
+                                    dismiss()
                                 }
                             }
                         }
@@ -74,5 +80,5 @@ struct AddWeightView: View {
 }
 
 #Preview {
-    AddWeightView()
+    AddWeightView(healthKitManager: MockHealthKitManager())
 }

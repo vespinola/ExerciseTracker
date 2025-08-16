@@ -89,7 +89,7 @@ final class Coordinator: ObservableObject {
     func build(sheet: Sheet) -> some View {
         switch sheet {
             case .addWeight:
-                AddWeightView()
+                AddWeightView(healthKitManager: healthKitManager)
         }
     }
 }

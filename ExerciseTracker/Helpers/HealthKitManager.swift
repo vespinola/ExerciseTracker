@@ -44,6 +44,11 @@ protocol HealthKitManaging {
         startDate: Date,
         endDate: Date
     ) async throws -> HKQueryResponse
+
+    func saveBodyMass(
+        date: Date,
+        bodyBass: Double
+    )
 }
 
 final class HealthKitManager: ObservableObject, HealthKitManaging {
@@ -57,7 +62,7 @@ final class HealthKitManager: ObservableObject, HealthKitManaging {
         HKQuantityType(.bodyMass)
     ]
 
-    private let writeDataTypes: Set<HKObjectType> = [
+    private let writeDataTypes: Set<HKQuantityType> = [
         HKQuantityType(.bodyMass)
     ]
 
@@ -67,11 +72,9 @@ final class HealthKitManager: ObservableObject, HealthKitManaging {
 
     func requestHealthKitAuthorization() async -> Bool {
         guard HKHealthStore.isHealthDataAvailable() else { return false }
-        try? await healthStore.requestAuthorization(toShare: .init(), read: readDataTypes)
-        // For now, I don't plan to use any sharing permissions.
-        guard !writeDataTypes.isEmpty else { return true }
+        try? await healthStore.requestAuthorization(toShare: writeDataTypes, read: readDataTypes)
         var allPermissionsWereGranted = true
-        readDataTypes.forEach { currentDataType in
+        writeDataTypes.forEach { currentDataType in
             let status = healthStore.authorizationStatus(for: currentDataType)
             let dataTypeAuthorized = status == .sharingAuthorized
             allPermissionsWereGranted = allPermissionsWereGranted && dataTypeAuthorized
@@ -140,9 +143,31 @@ final class HealthKitManager: ObservableObject, HealthKitManaging {
         }
         return HKQueryResponse(total: formatter(mostRecents.last?.1 ?? .zero), details: mostRecents)
     }
+
+    func saveBodyMass(date: Date, bodyBass: Double) {
+        let quantityType = HKQuantityType(.bodyMass)
+        let sample = HKQuantitySample(
+            type: quantityType,
+            quantity: HKQuantity(
+                unit: HKUnit.gramUnit(with: .kilo, ),
+                doubleValue: bodyBass
+            ),
+            start: date,
+            end: date
+        )
+        healthStore.save(sample) { (success, error) in
+            if let error = error {
+                print("Error saving weight: \(error.localizedDescription)")
+            } else if success {
+                print("Weight saved successfully!")
+            }
+        }
+    }
 }
 
 struct MockHealthKitManager: HealthKitManaging {
+    func saveBodyMass(date: Date, bodyBass: Double) { }
+
     func requestHealthKitAuthorization() async -> Bool {
         return true
     }

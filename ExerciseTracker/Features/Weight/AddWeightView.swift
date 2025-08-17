@@ -45,7 +45,6 @@ struct AddWeightView: View {
                                 .onAppear {
                                     isTextFieldFocused = true
                                 }
-
                         }
                     } header: {
                         VStack(alignment: .center, spacing: 16) {
@@ -68,6 +67,19 @@ struct AddWeightView: View {
                                     healthKitManager.saveBodyMass(date: selectedDate, bodyBass: convertedWeight)
                                     NotificationCenter.default.post(name: .weightDidChange, object: nil)
                                     dismiss()
+                                }
+                                .disabled(weigth.isEmpty)
+                            }
+                            ToolbarItem(placement: .topBarLeading) {
+                                Button(action: {
+                                    dismiss()
+                                }) {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .symbolRenderingMode(.monochrome)
+                                        .foregroundStyle(.blue)
+                                        .frame(width: 30, height: 30)
                                 }
                             }
                         }

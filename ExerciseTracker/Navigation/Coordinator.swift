@@ -10,11 +10,13 @@ import SwiftUI
 enum Page: Hashable, Identifiable {
     case home
     case detail(ChartDetailModel)
+    case settings
 
     var id: String {
         switch self {
-        case .home: "home"
-        case .detail: "detail"
+            case .home: "home"
+            case .detail: "detail"
+            case .settings: "settings"
         }
     }
 }
@@ -64,24 +66,27 @@ final class Coordinator: ObservableObject {
     @MainActor @ViewBuilder
     func build(page: Page) -> some View {
         switch page {
-        case .home:
-            HomeView(
-                viewModel: .init(
-                    healthKitManager: healthKitManager,
-                    onStepsCountTap: { [weak self] model in
-                        guard let self else { return }
-                        push(.detail(model))
-                    },
-                    onAddWeidhtTap: { [weak self] in
-                        guard let self else { return }
-                        present(sheet: .addWeight)
-                    }
+            case .home:
+                HomeView(
+                    viewModel: .init(
+                        healthKitManager: healthKitManager,
+                        onStepsCountTap: { [weak self] model in
+                            guard let self else { return }
+                            push(.detail(model))
+                        },
+                        onSettingsTap: { [weak self] in
+                            guard let self else { return }
+                            push(.settings)
+                        }
+                    )
                 )
-            )
-        case .detail(let model):
-            ChartDetailView(
-                viewModel: .init(model: model, healthKitManager: self.healthKitManager)
-            )
+            case .detail(let model):
+                ChartDetailView(
+                    viewModel: .init(model: model, healthKitManager: self.healthKitManager)
+                )
+            case .settings:
+                SettingsMainView()
+                    .environmentObject(self)
         }
     }
 
@@ -93,3 +98,4 @@ final class Coordinator: ObservableObject {
         }
     }
 }
+

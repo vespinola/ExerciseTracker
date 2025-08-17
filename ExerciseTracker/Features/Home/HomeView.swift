@@ -24,7 +24,7 @@ struct HomeView: View {
                 .edgesIgnoringSafeArea(.all)
             ScrollView {
                 LazyVStack(spacing: 16) {
-                    HeaderView(model: .init(title: "Summary", image: "figure.walk.circle.fill", action: viewModel.onAddWeidhtTap))
+                    HeaderView(model: .init(title: "Summary", image: "gearshape.fill", action: viewModel.onSettingsTap))
                         .padding(.top)
                     PieChartCardView(
                         model: .init(
@@ -116,7 +116,7 @@ struct HomeView: View {
         viewModel: HomeViewModel(
             healthKitManager: MockHealthKitManager(),
             onStepsCountTap: { _ in },
-            onAddWeidhtTap: {}
+            onSettingsTap: {}
         )
     )
 }

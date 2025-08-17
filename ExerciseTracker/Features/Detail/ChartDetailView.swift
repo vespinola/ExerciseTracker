@@ -19,6 +19,7 @@ struct ChartDetailView: View {
             VStack(alignment: .leading) {
                 Group {
                     Text("\(viewModel.title): ")
+                        .foregroundStyle(.gray)
                     + Text(viewModel.primaryData)
                         .foregroundStyle(.blue)
                 }
@@ -42,6 +43,7 @@ struct ChartDetailView: View {
                 try? await viewModel.fetchDataPerInterval()
             }
         }
+        .navigationTitle("Details")
     }
 
     @ViewBuilder

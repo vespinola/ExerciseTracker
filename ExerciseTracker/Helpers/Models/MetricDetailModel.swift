@@ -31,11 +31,3 @@ extension [MetricDetailModel] {
         return (min * 0.9)...(max * 1.1)
     }
 }
-
-extension MetricDetailModel {
-    static func map(values: [(Date, Double)]) -> [MetricDetailModel] {
-        values.map {
-            .init(date: $0.0, value: $0.1)
-        }
-    }
-}

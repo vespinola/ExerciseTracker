@@ -10,6 +10,7 @@ import SwiftUI
 enum Page: Hashable, Identifiable {
     case home
     case detail(ChartDetailModel)
+    case weightList
     case settings
 
     var id: String {
@@ -17,6 +18,7 @@ enum Page: Hashable, Identifiable {
             case .home: "home"
             case .detail: "detail"
             case .settings: "settings"
+            case .weightList: "weightList"
         }
     }
 }
@@ -87,6 +89,8 @@ final class Coordinator: ObservableObject {
             case .settings:
                 SettingsMainView()
                     .environmentObject(self)
+            case .weightList:
+                WeightListView(healthKitManager: self.healthKitManager)
         }
     }
 

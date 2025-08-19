@@ -16,6 +16,9 @@ struct SettingsMainView: View {
                 Button("Add a new entry") {
                     coordinator.present(sheet: .addWeight)
                 }
+                Button("Show All Data") {
+                    coordinator.push(.weightList)
+                }
             } header: {
                 Text("Manage your weight")
             }

@@ -48,6 +48,6 @@ final class ChartDetailViewModel {
             intervalComponents: xAxisStyle.intervalComponents
         )
         self.primaryData = result.total
-        self.details = MetricDetailModel.map(values: result.details)
+        self.details = result.details
     }
 }

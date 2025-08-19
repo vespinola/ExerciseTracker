@@ -9,7 +9,7 @@ import HealthKit
 
 struct HKQueryResponse {
     let total: String
-    let details: [(Date, Double)]
+    let details: [MetricDetailModel]
 
     static let fallback: HKQueryResponse = .init(total: "0", details: [])
 }
@@ -116,13 +116,13 @@ final class HealthKitManager: ObservableObject, HealthKitManaging {
             intervalComponents: intervalComponents
         )
         let results = try await queryDescriptor.result(for: healthStore)
-        var hourlyValues: [(Date, Double)] = []
+        var hourlyValues: [MetricDetailModel] = []
         results.enumerateStatistics(from: startDate, to: endDate) { statistics, _ in
             let hour = statistics.startDate
             let value = statistics.sumQuantity()?.doubleValue(for: unit) ?? 0
-            hourlyValues.append((hour, value))
+            hourlyValues.append(.init(date: hour, value: value))
         }
-        let total = hourlyValues.map(\.1).reduce(0, +)
+        let total = hourlyValues.map(\.value).reduce(0, +)
         return HKQueryResponse(total: formatter(Double(total)), details: hourlyValues)
     }
 
@@ -139,9 +139,9 @@ final class HealthKitManager: ObservableObject, HealthKitManaging {
         let descriptor = HKSampleQueryDescriptor(predicates: [samplePredicate], sortDescriptors: [sortDescriptor])
         let results = try await descriptor.result(for: healthStore)
         let mostRecents = results.map {
-            ($0.startDate, $0.quantity.doubleValue(for: unit))
+            MetricDetailModel(date: $0.startDate, value: $0.quantity.doubleValue(for: unit))
         }
-        return HKQueryResponse(total: formatter(mostRecents.last?.1 ?? .zero), details: mostRecents)
+        return HKQueryResponse(total: formatter(mostRecents.last?.value ?? .zero), details: mostRecents)
     }
 
     func saveBodyMass(date: Date, bodyBass: Double) {
@@ -171,7 +171,7 @@ struct MockHealthKitManager: HealthKitManaging {
     func requestHealthKitAuthorization() async -> Bool {
         return true
     }
-    
+
     func fetchMoveSummary(
         startDate: Date,
         endDate: Date
@@ -189,7 +189,7 @@ struct MockHealthKitManager: HealthKitManaging {
     ) async throws -> HKQueryResponse {
         let now = Date()
         let hours = (0..<24).map { offset in
-            (Calendar.current.date(byAdding: .hour, value: -offset, to: now)!, Double(offset * 10))
+            MetricDetailModel(date: Calendar.current.date(byAdding: .hour, value: -offset, to: now)!, value: Double(offset * 10))
         }
         return HKQueryResponse(total: "240", details: hours)
     }
@@ -201,8 +201,8 @@ struct MockHealthKitManager: HealthKitManaging {
         endDate: Date
     ) async throws -> HKQueryResponse {
         let values = [
-            (Date(), 70.5),
-            (Calendar.current.date(byAdding: .day, value: -1, to: Date())!, 70.2)
+            MetricDetailModel(date: Date(), value: 70.5),
+            MetricDetailModel(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, value: 70.2)
         ]
         return HKQueryResponse(total: formatter(70.5), details: values)
     }

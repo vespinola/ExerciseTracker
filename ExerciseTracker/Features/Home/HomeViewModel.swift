@@ -65,7 +65,7 @@ class HomeViewModel {
             intervalComponents: XAxisType.hour.intervalComponents
         )
         self.todayStepsCount = result.total
-        self.hourlyStepCounts = MetricDetailModel.map(values: result.details)
+        self.hourlyStepCounts = result.details
     }
 
     private func fetchDistancePerHour() async throws {
@@ -79,7 +79,7 @@ class HomeViewModel {
             intervalComponents: XAxisType.hour.intervalComponents
         )
         self.todayDistance = result.total
-        self.hourlyDistance = MetricDetailModel.map(values: result.details)
+        self.hourlyDistance = result.details
     }
 
     private func fetchMoveSummary() async throws {
@@ -98,6 +98,6 @@ class HomeViewModel {
             endDate: endDate
         )
         self.currentBodyMass = result.total
-        self.yearlyBodyMassList = MetricDetailModel.map(values: result.details)
+        self.yearlyBodyMassList = result.details
     }
 }

@@ -23,8 +23,8 @@ struct HomeView: View {
                 .fill(Color.gray.opacity(0.1))
                 .edgesIgnoringSafeArea(.all)
             ScrollView {
-                LazyVStack(spacing: 16) {
-                    HeaderView(model: .init(title: "Summary", image: "gearshape.fill", action: viewModel.onSettingsTap))
+                VStack(spacing: 16) {
+                    HeaderView(model: .init(title: "Summary"))
                         .padding(.top)
                     PieChartCardView(
                         model: .init(
@@ -36,12 +36,25 @@ struct HomeView: View {
                     )
                     LineChartCardView(model: .init(
                         title: "Body Mass",
-                        date: "Last 3 Months(in weeks)",
+                        date: "Since the beginning",
                         primaryData: viewModel.currentBodyMass,
                         yAxisLabel: "kg",
                         xAxisStyle: XAxisType.week,
                         data: viewModel.yearlyBodyMassList
                     ))
+                    .overlay(alignment: .topTrailing) {
+                        Button(action: viewModel.onSettingsTap) {
+                            Image(systemName: "gearshape.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .symbolRenderingMode(.monochrome)
+                                .foregroundStyle(.blue)
+                                .frame(width: 25, height: 25)
+                        }
+                        .buttonStyle(.plain)
+                        .background(.clear, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+                        .padding(16)
+                    }
                     HStack(spacing: 16) {
                         BarChartCardView(model: .init(
                             title: "Step Count",

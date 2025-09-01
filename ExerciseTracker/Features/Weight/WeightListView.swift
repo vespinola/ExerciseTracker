@@ -18,16 +18,28 @@ struct WeightListView: View {
     var body: some View {
         List {
             ForEach(list) {
-                Text(String(format: "%.1f Kg", $0.value))
+                detailRow(metricDetailModel: $0)
             }
             .onDelete(perform: deleteItems)
         }
         .task {
             let weightList = try? await healthKitManager
                 .fetchBodyMassData(unit: .gramUnit(with: .kilo), formatter: { String(format: "%.1f Kg", $0) }, startDate: .distantPast, endDate: .now)
-            list = weightList?.details ?? []
+            list = weightList?.details.reversed() ?? []
         }
-        .navigationTitle("List")
+        .navigationTitle("Your progress 🙌")
+    }
+
+    @ViewBuilder
+    private func detailRow(metricDetailModel: MetricDetailModel) -> some View {
+        HStack {
+            Text(String(format: "%.1f Kg", metricDetailModel.value))
+                .font(.headline)
+            Spacer()
+            Text(metricDetailModel.date.formatted(date: .abbreviated, time: .shortened))
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+        }
     }
 
     private func deleteItems(at offsets: IndexSet) {

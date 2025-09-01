@@ -89,7 +89,7 @@ class HomeViewModel {
     }
 
     func fetchBodyMassData() async throws {
-        let startDate = calendar.date(byAdding: .month, value: -6, to: .now) ?? .now
+        let startDate: Date = .distantPast
         let endDate: Date = .now
         let result = try await healthKitManager.fetchBodyMassData(
             unit: .gramUnit(with: .kilo),

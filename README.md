@@ -28,8 +28,11 @@ It integrates with **Apple HealthKit** to fetch data such as steps, distance, an
    ```
 3. Build and run the app on a physical device (HealthKit is not supported in simulators).
 
-## 📷 Screenshots
-_Add screenshots here to showcase charts and tracking views._
+
+## 🎥 Demo
+
+[🎥 Watch Recording](Recordings/recording.MP4)
+
 
 ## 📝 TODO
 - Add **unit tests** for HealthKit data handling  

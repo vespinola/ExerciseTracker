@@ -9,6 +9,8 @@ import SwiftUI
 
 struct WeightListView: View {
     private var healthKitManager: HealthKitManaging
+    @State private var pendingDelete: IndexSet? = nil
+    @State private var showDeleteAlert = false
     @State private var list: [MetricDetailModel] = []
 
     init(healthKitManager: HealthKitManaging) {
@@ -27,6 +29,24 @@ struct WeightListView: View {
                 .fetchBodyMassData(unit: .gramUnit(with: .kilo), formatter: { String(format: "%.1f Kg", $0) }, startDate: .distantPast, endDate: .now)
             list = weightList?.details.reversed() ?? []
         }
+        .alert("Are you sure you want to delete this entry?", isPresented: $showDeleteAlert) {
+            Button("Delete", role: .destructive) {
+                if let offsets = pendingDelete {
+                    for index in offsets {
+                        if let sample = list[index].sample {
+                            healthKitManager.deleteSample(sample: sample)
+                        }
+                    }
+                    list.remove(atOffsets: offsets)
+                }
+                pendingDelete = nil
+            }
+            Button("Cancel", role: .cancel) {
+                pendingDelete = nil
+            }
+        } message: {
+            Text("This action cannot be undone and will remove the data from Health app.")
+        }
         .navigationTitle("Your progress 🙌")
     }
 
@@ -43,7 +63,8 @@ struct WeightListView: View {
     }
 
     private func deleteItems(at offsets: IndexSet) {
-        list.remove(atOffsets: offsets) // Remove items from the source array
+        pendingDelete = offsets
+        showDeleteAlert = true
     }
 }
 

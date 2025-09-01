@@ -6,11 +6,13 @@
 //
 
 import Foundation
+import HealthKit
 
 struct MetricDetailModel: Identifiable, Equatable {
     let id = UUID()
     let date: Date
     let value: Double
+    var sample: HKQuantitySample? = nil
 
     static func == (lhs: MetricDetailModel, rhs: MetricDetailModel) -> Bool {
         lhs.date == rhs.date && lhs.value == rhs.value

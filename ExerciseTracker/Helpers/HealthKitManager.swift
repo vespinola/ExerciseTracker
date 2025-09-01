@@ -49,6 +49,8 @@ protocol HealthKitManaging {
         date: Date,
         bodyBass: Double
     )
+
+    func deleteSample(sample: HKQuantitySample)
 }
 
 final class HealthKitManager: ObservableObject, HealthKitManaging {
@@ -139,7 +141,7 @@ final class HealthKitManager: ObservableObject, HealthKitManaging {
         let descriptor = HKSampleQueryDescriptor(predicates: [samplePredicate], sortDescriptors: [sortDescriptor])
         let results = try await descriptor.result(for: healthStore)
         let mostRecents = results.map {
-            MetricDetailModel(date: $0.startDate, value: $0.quantity.doubleValue(for: unit))
+            MetricDetailModel(date: $0.startDate, value: $0.quantity.doubleValue(for: unit), sample: $0)
         }
         return HKQueryResponse(total: formatter(mostRecents.last?.value ?? .zero), details: mostRecents)
     }
@@ -160,6 +162,16 @@ final class HealthKitManager: ObservableObject, HealthKitManaging {
                 print("Error saving weight: \(error.localizedDescription)")
             } else if success {
                 print("Weight saved successfully!")
+            }
+        }
+    }
+
+    func deleteSample(sample: HKQuantitySample) {
+        healthStore.delete(sample) { success, error in
+            if let error = error {
+                print("Error deleting sample: \(error)")
+            } else if success {
+                print("Sample deleted from HealthKit")
             }
         }
     }
@@ -206,4 +218,6 @@ struct MockHealthKitManager: HealthKitManaging {
         ]
         return HKQueryResponse(total: formatter(70.5), details: values)
     }
+
+    func deleteSample(sample: HKQuantitySample) { }
 }

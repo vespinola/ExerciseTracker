@@ -26,14 +26,7 @@ It integrates with **Apple HealthKit** to fetch data such as steps, distance, an
    cd ExerciseTracker
    open ExerciseTracker.xcodeproj
    ```
-3. Configure **HealthKit permissions** in `Info.plist`:
-   ```xml
-   <key>NSHealthShareUsageDescription</key>
-   <string>We need your permission to read health data like steps and body mass.</string>
-   <key>NSHealthUpdateUsageDescription</key>
-   <string>Please allow access to update your health data.</string>
-   ```
-4. Build and run the app on a physical device (HealthKit is not supported in simulators).
+3. Build and run the app on a physical device (HealthKit is not supported in simulators).
 
 ## 📷 Screenshots
 _Add screenshots here to showcase charts and tracking views._

@@ -41,7 +41,7 @@ struct HomeView: View {
                         yAxisLabel: "kg",
                         xAxisStyle: XAxisType.week,
                         data: viewModel.yearlyBodyMassList
-                    ))
+                    ), onTap: viewModel.onBodyMassTap)
                     .overlay(alignment: .topTrailing) {
                         Button(action: viewModel.onSettingsTap) {
                             Image(systemName: "gearshape.fill")
@@ -129,7 +129,8 @@ struct HomeView: View {
         viewModel: HomeViewModel(
             healthKitManager: MockHealthKitManager(),
             onStepsCountTap: { _ in },
-            onSettingsTap: {}
+            onSettingsTap: {},
+            onBodyMassTap: {}
         )
     )
 }

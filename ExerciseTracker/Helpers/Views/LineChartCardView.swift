@@ -10,9 +10,11 @@ import Charts
 
 struct LineChartCardView: View {
     private let model: ChartModel
+    private let onTap: () -> Void
 
-    init(model: ChartModel) {
+    init(model: ChartModel, onTap: @escaping () -> Void) {
         self.model = model
+        self.onTap = onTap
     }
 
     var body: some View {
@@ -25,8 +27,6 @@ struct LineChartCardView: View {
                 HStack {
                     Text(model.title)
                     Spacer()
-//                    Image(systemName: "arrow.right.circle")
-//                        .foregroundStyle(.gray)
                 }
 
                 // Date
@@ -80,6 +80,9 @@ struct LineChartCardView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .foregroundStyle(.blue)
+                .onTapGesture {
+                    onTap()
+                }
             }
             .padding()
         }
@@ -97,7 +100,7 @@ struct LineChartCardView: View {
             yAxisLabel: "kg",
             xAxisStyle: .week,
             data: .mock
-        ))
+        ), onTap: {})
 
         LineChartCardView(model: .init(
             title: "Steps Count",
@@ -106,7 +109,7 @@ struct LineChartCardView: View {
             yAxisLabel: "steps",
             xAxisStyle: .month,
             data: .mock
-        ))
+        ), onTap: {})
 
         LineChartCardView(model: .init(
             title: "Heart Rate",
@@ -115,6 +118,6 @@ struct LineChartCardView: View {
             yAxisLabel: "bpm",
             xAxisStyle: .hour,
             data: .mock
-        ))
+        ), onTap: {})
     }
 }

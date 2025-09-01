@@ -79,6 +79,9 @@ final class Coordinator: ObservableObject {
                         onSettingsTap: { [weak self] in
                             guard let self else { return }
                             push(.settings)
+                        }, onBodyMassTap: { [weak self] in
+                            guard let self else { return }
+                            push(.weightList)
                         }
                     )
                 )
@@ -86,11 +89,16 @@ final class Coordinator: ObservableObject {
                 ChartDetailView(
                     viewModel: .init(model: model, healthKitManager: self.healthKitManager)
                 )
+                .editorToolbar()
             case .settings:
+                // Test passing the manager into the environment object
                 SettingsMainView()
+                    .editorToolbar()
                     .environmentObject(self)
             case .weightList:
+                // Test passing only the manager
                 WeightListView(healthKitManager: self.healthKitManager)
+                    .editorToolbar()
         }
     }
 

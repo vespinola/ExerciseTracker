@@ -26,15 +26,18 @@ class HomeViewModel {
     private let healthKitManager: HealthKitManaging
     let onStepsCountTap: (ChartDetailModel) -> Void
     let onSettingsTap: () -> Void
+    let onBodyMassTap: () -> Void
 
     init(
         healthKitManager: HealthKitManaging,
         onStepsCountTap: @escaping (ChartDetailModel) -> Void,
-        onSettingsTap: @escaping () -> Void
+        onSettingsTap: @escaping () -> Void,
+        onBodyMassTap: @escaping () -> Void
     ) {
         self.healthKitManager = healthKitManager
         self.onStepsCountTap = onStepsCountTap
         self.onSettingsTap = onSettingsTap
+        self.onBodyMassTap = onBodyMassTap
     }
 
     func requestAuthorization() async {

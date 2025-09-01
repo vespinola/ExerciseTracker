@@ -31,7 +31,7 @@ It integrates with **Apple HealthKit** to fetch data such as steps, distance, an
 
 ## 🎥 Demo
 
-[Watch Recording](Recordings/demo.mp4)
+[Watch here](demo.gif)
 
 
 ## 📝 TODO

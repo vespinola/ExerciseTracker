@@ -90,7 +90,9 @@ struct HomeView: View {
         }
         .onAppear {
             timer = Timer.scheduledTimer(withTimeInterval: TimerConfiguration.waitTime, repeats: true) { _ in
-                getHealthData()
+                Task { @MainActor in
+                    getHealthData()
+                }
             }
         }
         .onDisappear {

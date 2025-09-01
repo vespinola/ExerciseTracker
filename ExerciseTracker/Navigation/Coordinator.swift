@@ -102,7 +102,7 @@ final class Coordinator: ObservableObject {
         }
     }
 
-    @ViewBuilder
+    @MainActor @ViewBuilder
     func build(sheet: Sheet) -> some View {
         switch sheet {
             case .addWeight:

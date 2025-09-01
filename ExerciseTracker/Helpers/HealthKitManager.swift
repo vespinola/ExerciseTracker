@@ -5,7 +5,7 @@
 //  Created by Vladimir Espinola Lezcano on 2025-08-01.
 //
 
-import HealthKit
+@preconcurrency import HealthKit
 
 struct HKQueryResponse {
     let total: String
@@ -21,6 +21,7 @@ struct HKSummaryQueryResponse {
     static let fallback: HKSummaryQueryResponse = .init(burnedCalories: 0, goalCalories: 0)
 }
 
+@MainActor
 protocol HealthKitManaging {
     func requestHealthKitAuthorization() async -> Bool
 
@@ -53,6 +54,7 @@ protocol HealthKitManaging {
     func deleteSample(sample: HKQuantitySample)
 }
 
+@MainActor
 final class HealthKitManager: ObservableObject, HealthKitManaging {
     private let calendar = Calendar.current
     private let healthStore: HKHealthStore

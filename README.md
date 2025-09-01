@@ -31,7 +31,9 @@ It integrates with **Apple HealthKit** to fetch data such as steps, distance, an
 
 ## 🎥 Demo
 
-[Watch here](demo.gif)
+Here is a demo of the app in action:
+
+![Demo](demo.gif)
 
 
 ## 📝 TODO

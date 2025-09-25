@@ -54,14 +54,16 @@ struct ChartDetailView: View {
             VStack {
                 Chart(viewModel.details) { element in
                     BarMark(
-                        x: .value("Time", element.date),
+                        x: .value("Time", viewModel.bucketStart(for: element.date), unit: viewModel.bucketUnit),
                         y: .value("Value", element.value)
-                        //TODO: Revisit width value per type
                     )
                 }
                 .animation(.smooth, value: viewModel.details)
-                .chartYScale(domain: viewModel.details.dynamicDomain) //TODO: Find a way to set chartYAxis
-                .chartXScale(domain: viewModel.xAxisStyle.xAxisDomain)
+                .chartYScale(
+                    domain: viewModel.details.dynamicDomain,
+                    range: .plotDimension(padding: 0)
+                ) //TODO: Find a way to set chartYAxis
+                .chartXScale(domain: viewModel.xAxisStyle.xAxisDomain, range: .plotDimension(padding: 0))
                 .chartXAxis {
                     AxisMarks(values: viewModel.xAxisStyle.xAxisTicks) { value in
                         AxisGridLine()
@@ -73,6 +75,26 @@ struct ChartDetailView: View {
                 .foregroundStyle(.blue)
                 .padding()
             }
+        }
+    }
+
+    private func unitFor(_ type: XAxisType) -> Calendar.Component {
+        switch type {
+            case .hour:  return .hour
+            case .week, .month: return .day
+            case .year:  return .month
+        }
+    }
+
+    private func bucketStart(for date: Date) -> Date {
+        let cal = Calendar.current
+        switch viewModel.xAxisStyle {
+            case .hour:
+                return cal.dateInterval(of: .hour, for: date)?.start ?? date
+            case .week, .month:
+                return cal.startOfDay(for: date)
+            case .year:
+                return cal.dateInterval(of: .month, for: date)?.start ?? cal.startOfDay(for: date)
         }
     }
 }

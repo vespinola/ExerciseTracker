@@ -51,3 +51,13 @@ final class ChartDetailViewModel {
         self.details = result.details
     }
 }
+
+extension ChartDetailViewModel {
+    /// Proxy to the current X axis bucket unit for concise usage in views
+    var bucketUnit: Calendar.Component { xAxisStyle.bucketUnit }
+
+    /// Proxy that snaps a date to the beginning of the bucket for the current X axis style
+    func bucketStart(for date: Date) -> Date {
+        xAxisStyle.bucketStart(for: date, calendar: calendar)
+    }
+}

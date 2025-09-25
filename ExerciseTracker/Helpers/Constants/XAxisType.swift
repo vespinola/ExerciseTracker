@@ -114,7 +114,7 @@ extension XAxisType {
         switch self {
             case .hour:
                 // Keep current behavior: ticks every 6 hours within the current day
-                return stride(from: 0, through: 24, by: 6).compactMap {
+                return stride(from: 0, to: 24, by: 6).compactMap {
                     calendar.date(byAdding: .hour, value: $0, to: baseDate)
                 }
             case .week:
@@ -156,33 +156,38 @@ extension XAxisType {
     
     var xAxisDomain: ClosedRange<Date> {
         let calendar = Calendar.current
-        let now = Date()
-        let startOfToday = calendar.startOfDay(for: now)
-        
+        guard let start = startDate, let endExclusive = endDate else {
+            let now = Date()
+            return now...now
+        }
+        let inclusiveEnd = calendar.date(byAdding: .second, value: -1, to: endExclusive) ?? endExclusive
+        return start...inclusiveEnd
+    }
+}
+
+extension XAxisType {
+    /// The calendar unit that represents one bucket on the X axis for this scale.
+    var bucketUnit: Calendar.Component {
         switch self {
-            case .hour:
-                let start = startOfToday
-                let end = calendar.date(byAdding: .hour, value: 23, to: start) ?? now
-                return start...end
-            case .week:
-                // Align domain with ISO week (Mon–Sun) so Sunday is included
-                var iso = Calendar(identifier: .iso8601)
-                iso.timeZone = calendar.timeZone
-                let comps = iso.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now)
-                let startOfWeek = iso.date(from: comps) ?? startOfToday
-                let startOfNextWeek = iso.date(byAdding: .day, value: 7, to: startOfWeek) ?? now
-                let end = iso.date(byAdding: .second, value: -1, to: startOfNextWeek) ?? startOfNextWeek
-                return startOfWeek...end
-            case .month:
-                let startOfMonth = calendar.dateInterval(of: .month, for: now)?.start ?? startOfToday
-                let startOfNextMonth = calendar.date(byAdding: .month, value: 1, to: startOfMonth) ?? now
-                let end = calendar.date(byAdding: .second, value: -1, to: startOfNextMonth) ?? startOfNextMonth
-                return startOfMonth...end
-            case .year:
-                let startOfYear = calendar.dateInterval(of: .year, for: now)?.start ?? startOfToday
-                let startOfNextYear = calendar.date(byAdding: .year, value: 1, to: startOfYear) ?? now
-                let end = calendar.date(byAdding: .second, value: -1, to: startOfNextYear) ?? startOfNextYear
-                return startOfYear...end
+        case .hour:
+            return .hour
+        case .week, .month:
+            return .day
+        case .year:
+            return .month
+        }
+    }
+
+    /// Snaps a date to the start of the bucket for the selected axis type.
+    /// Uses calendar boundaries for DST-safe results.
+    func bucketStart(for date: Date, calendar: Calendar = .current) -> Date {
+        switch self {
+        case .hour:
+            return calendar.dateInterval(of: .hour, for: date)?.start ?? date
+        case .week, .month:
+            return calendar.startOfDay(for: date)
+        case .year:
+            return calendar.dateInterval(of: .month, for: date)?.start ?? calendar.startOfDay(for: date)
         }
     }
 }

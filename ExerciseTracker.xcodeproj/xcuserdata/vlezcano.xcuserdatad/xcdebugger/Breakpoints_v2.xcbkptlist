@@ -238,9 +238,9 @@
             filePath = "ExerciseTracker/Features/Detail/ChartDetailViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "fetchDataPerInterval()"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "eduleFetch(for style: XAxisType) { // Cancel any in-flight fetch fetchTask?.cancel()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -254,9 +254,9 @@
             filePath = "ExerciseTracker/Features/Detail/ChartDetailViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "fetchDataPerInterval()"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "eduleFetch(for style: XAxisType) { // Cancel any in-flight fetch fetchTask?.cancel()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

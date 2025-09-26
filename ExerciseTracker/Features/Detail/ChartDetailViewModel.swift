@@ -7,6 +7,7 @@
 
 import SwiftUI
 import HealthKit
+import Observation
 
 @MainActor @Observable
 final class ChartDetailViewModel {
@@ -14,9 +15,7 @@ final class ChartDetailViewModel {
     var details: [MetricDetailModel] = []
     var xAxisStyle: XAxisType {
         didSet {
-            Task {
-                try? await fetchDataPerInterval()
-            }
+            scheduleFetch(for: xAxisStyle)
         }
     }
 
@@ -25,6 +24,9 @@ final class ChartDetailViewModel {
     
     private let calendar = Calendar.current
     private let healthKitManager: HealthKitManaging
+
+    @ObservationIgnored
+    private var fetchTask: Task<Void, Never>?
     
     init(
         model: ChartDetailModel,
@@ -36,19 +38,36 @@ final class ChartDetailViewModel {
         self.healthKitManager = healthKitManager
     }
     
+    private func scheduleFetch(for style: XAxisType) {
+        // Cancel any in-flight fetch
+        fetchTask?.cancel()
+
+        // Start a new task for the requested style
+        fetchTask = Task { [weak self] in
+            guard let self else { return }
+
+            let startDate = style.startDate ?? .now
+            let endDate = style.endDate ?? .now
+
+            let result = try? await self.healthKitManager.fetchHourlyCumulativeSum(
+                for: self.dataOption.quantityType,
+                unit: self.dataOption.unit,
+                formatter: { self.dataOption.formatted(value: $0) },
+                startDate: startDate,
+                endDate: endDate,
+                intervalComponents: style.intervalComponents
+            )
+
+            // Ensure this task is still relevant and not cancelled
+            guard !Task.isCancelled, style == self.xAxisStyle, let result else { return }
+
+            self.primaryData = result.total
+            self.details = result.details
+        }
+    }
+    
     func fetchDataPerInterval() async throws {
-        let startDate = xAxisStyle.startDate ?? .now
-        let endDate = xAxisStyle.endDate ?? .now
-        let result = try await healthKitManager.fetchHourlyCumulativeSum(
-            for: dataOption.quantityType,
-            unit: dataOption.unit,
-            formatter: { dataOption.formatted(value: $0) }, //TODO: Check this part later
-            startDate: startDate,
-            endDate: endDate,
-            intervalComponents: xAxisStyle.intervalComponents
-        )
-        self.primaryData = result.total
-        self.details = result.details
+        scheduleFetch(for: xAxisStyle)
     }
 }
 

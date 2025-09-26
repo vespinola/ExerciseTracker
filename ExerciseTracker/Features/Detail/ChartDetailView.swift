@@ -39,6 +39,7 @@ struct ChartDetailView: View {
                 Spacer()
             }
             .padding(.horizontal)
+            .animation(nil, value: viewModel.details.dynamicDomain)
             .task {
                 try? await viewModel.fetchDataPerInterval()
             }
@@ -58,7 +59,6 @@ struct ChartDetailView: View {
                         y: .value("Value", element.value)
                     )
                 }
-                .animation(.smooth, value: viewModel.details)
                 .chartYScale(
                     domain: viewModel.details.dynamicDomain,
                     range: .plotDimension(padding: 0)
@@ -71,11 +71,13 @@ struct ChartDetailView: View {
                         AxisValueLabel(format: viewModel.xAxisStyle.xAxisDateFormat)
                     }
                 }
+                .id(viewModel.xAxisStyle)
                 .frame(maxWidth: .infinity)
                 .foregroundStyle(.blue)
                 .padding()
             }
         }
+        .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 }
 

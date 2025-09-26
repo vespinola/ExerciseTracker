@@ -77,26 +77,6 @@ struct ChartDetailView: View {
             }
         }
     }
-
-    private func unitFor(_ type: XAxisType) -> Calendar.Component {
-        switch type {
-            case .hour:  return .hour
-            case .week, .month: return .day
-            case .year:  return .month
-        }
-    }
-
-    private func bucketStart(for date: Date) -> Date {
-        let cal = Calendar.current
-        switch viewModel.xAxisStyle {
-            case .hour:
-                return cal.dateInterval(of: .hour, for: date)?.start ?? date
-            case .week, .month:
-                return cal.startOfDay(for: date)
-            case .year:
-                return cal.dateInterval(of: .month, for: date)?.start ?? cal.startOfDay(for: date)
-        }
-    }
 }
 
 #Preview {

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import HealthKitUI
+import PreviewSnapshots
 
 struct HomeView: View {
     @State private var timer: Timer?
@@ -126,14 +127,37 @@ struct HomeView: View {
     }
 }
 
-#Preview {
-    HomeView(
-        viewModel: HomeViewModel(
-            healthKitManager: MockHealthKitManager(),
-            onStepsCountTap: { _ in },
-            onSettingsTap: {},
-            onBodyMassTap: {}
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        homeSnapshots.previews.previewLayout(.sizeThatFits)
+    }
+
+    static var homeSnapshots: PreviewSnapshots<String> {
+        PreviewSnapshots(
+            configurations: [
+                .init(name: "Loaded experience", state: "Loaded")
+            ],
+            configure: { state in
+                let view = switch state {
+                    case "Loaded":
+                        HomeView(viewModel: HomeViewModel(
+                            healthKitManager: MockHealthKitManager(),
+                            onStepsCountTap: { _ in },
+                            onSettingsTap: {},
+                            onBodyMassTap: {}
+                        ))
+                    default:
+                        // TODO: Add more states
+                        HomeView(viewModel: HomeViewModel(
+                            healthKitManager: MockHealthKitManager(),
+                            onStepsCountTap: { _ in },
+                            onSettingsTap: {},
+                            onBodyMassTap: {}
+                        ))
+                }
+                return view.fixedSize(horizontal: true, vertical: true)
+            }
         )
-    )
+    }
 }
 

@@ -21,7 +21,7 @@ struct HomeViewModelTests {
     func `home viewmodel basic functionality`() async throws {
         //Given
         let spyManager = SpyHealthKitManager()
-        let viewModel = HomeViewModelFixture.getInstance(healthKitManger: spyManager)
+        let viewModel = HomeViewModel.fixture(healthKitManger: spyManager)
 
         //When
         await viewModel.requestAuthorization()
@@ -35,15 +35,11 @@ struct HomeViewModelTests {
 
 }
 
-extension Tag {
-    @Tag static var ui: Self
-}
-
-struct HomeViewModelFixture {
-    @MainActor static func getInstance(
-        healthKitManger: SpyHealthKitManager
+extension HomeViewModel {
+    static func fixture(
+        healthKitManger: HealthKitManaging
     ) -> HomeViewModel {
-        return .init(
+        .init(
             healthKitManager: healthKitManger,
             onStepsCountTap: { _ in },
             onSettingsTap: { },

@@ -21,7 +21,7 @@ struct HKSummaryQueryResponse {
     static let fallback: HKSummaryQueryResponse = .init(burnedCalories: 0, goalCalories: 0)
 }
 
-@MainActor
+@MainActor // TODO: Check if I really need MainActor here
 protocol HealthKitManaging {
     func requestHealthKitAuthorization() async -> Bool
 

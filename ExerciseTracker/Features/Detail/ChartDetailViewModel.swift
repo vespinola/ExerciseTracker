@@ -5,9 +5,9 @@
 //  Created by Vladimir Espinola Lezcano on 2025-08-02.
 //
 
-import SwiftUI
 import HealthKit
 import Observation
+import SwiftUI
 
 @MainActor @Observable
 final class ChartDetailViewModel {
@@ -21,13 +21,13 @@ final class ChartDetailViewModel {
 
     let title: String
     let dataOption: HealthDataOptions
-    
+
     private let calendar = Calendar.current
     private let healthKitManager: HealthKitManaging
 
     @ObservationIgnored
     private var fetchTask: Task<Void, Never>?
-    
+
     init(
         model: ChartDetailModel,
         healthKitManager: HealthKitManaging
@@ -37,7 +37,7 @@ final class ChartDetailViewModel {
         self.dataOption = model.dataOption
         self.healthKitManager = healthKitManager
     }
-    
+
     private func scheduleFetch(for style: XAxisType) {
         // Cancel any in-flight fetch
         fetchTask?.cancel()
@@ -65,7 +65,7 @@ final class ChartDetailViewModel {
             self.details = result.details
         }
     }
-    
+
     func fetchDataPerInterval() async throws {
         scheduleFetch(for: xAxisStyle)
     }

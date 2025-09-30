@@ -240,7 +240,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "51"
             endingLineNumber = "51"
-            landmarkName = "eduleFetch(for style: XAxisType) { // Cancel any in-flight fetch fetchTask?.cancel()"
+            landmarkName = "scheduleFetch(for:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -256,7 +256,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "65"
             endingLineNumber = "65"
-            landmarkName = "eduleFetch(for style: XAxisType) { // Cancel any in-flight fetch fetchTask?.cancel()"
+            landmarkName = "scheduleFetch(for:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
